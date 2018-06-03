@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">BabyTime</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="main_menu_setting">设置</string>
+</resources>
