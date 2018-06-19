@@ -1,7 +1,8 @@
 package com.cuile.cuile.babytime
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.support.v7.app.AppCompatActivity
+
 
 abstract class BaseActivity : AppCompatActivity() {
 

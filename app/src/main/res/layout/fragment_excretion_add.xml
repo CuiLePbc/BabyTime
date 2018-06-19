@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:padding="@dimen/fab_margin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:layout_marginTop="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/excretion_type"/>
+
+            <RadioGroup
+                android:id="@+id/excretionTypeRadioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/wetType"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:text="@string/wetExcretion"
+                    android:checked="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <RadioButton
+                    android:id="@+id/driedType"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:text="@string/driedExcretion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"/>
+
+                <RadioButton
+                    android:id="@+id/wetAndDriedType"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:text="@string/wetAndDriedExcretion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"/>
+            </RadioGroup>
+
+            
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/excretionFab"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:transitionName="@string/fab_shared_name"
+        android:src="@android:drawable/ic_input_add"/>
+</android.support.design.widget.CoordinatorLayout>

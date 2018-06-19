@@ -1,5 +1,43 @@
 <resources>
     <string name="app_name">BabyTime</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">@string/show_main</string>
     <string name="main_menu_setting">设置</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="bodydata_add">成长数据添加</string>
+    <string name="eat_add">饮食记录添加</string>
+    <string name="excretion_add">便便时间记录</string>
+    <string name="medicine_add">吃药记录添加</string>
+    <string name="sleep_add">睡眠记录</string>
+    <string name="show_main">宝宝情况总览</string>
+    <string name="baby_height">宝宝身高(CM)</string>
+    <string name="baby_weight">宝宝体重(KG)</string>
+
+    <string name="baby_excretion_type_normal">正常</string>
+    <string name="body_data_img_label">宝宝这么可爱，来张照片吧：</string>
+    <string name="body_data_baby_img">宝宝照片</string>
+    <string name="take_photo">拍摄</string>
+    <string name="choose_photo">从相册选择</string>
+    <string name="cancel_photo">取消</string>
+    <string name="fab_shared_name">fab_shared_name</string>
+    <string name="fab_shared_name2">fab_shared_name2</string>
+    <string name="sure_to_add">确认添加</string>
+    <string name="time">时间：</string>
+    <string name="dried_milk">奶粉</string>
+    <string name="breast_milk">母乳</string>
+    <string name="which_to_eat">食物种类</string>
+    <string name="how_long">时长</string>
+    <string name="how_many_to_eat">食量</string>
+    <string name="other_food">其他</string>
+    <string name="type_of_other_food">辅食种类</string>
+    <string name="excretion_type">便便种类</string>
+    <string name="wetExcretion">嘘嘘</string>
+    <string name="driedExcretion">粑粑</string>
+    <string name="wetAndDriedExcretion">嘘嘘和粑粑</string>
+
+    <string-array name="baby_excretion_type_array">
+        <item>@string/baby_excretion_type_normal</item>
+    </string-array>
+
 </resources>

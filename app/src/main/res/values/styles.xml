@@ -1,13 +1,12 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
-        <item name="colorPrimaryLight">@color/colorPrimary</item>
-        <item name="colorSecondary">@color/colorSecondary</item>
-        <item name="colorSecondaryLight">@color/colorSecondaryLight</item>
-        <item name="colorSecondaryDark">@color/colorSecondaryDark</item>
-        <item name="scrimBackground">@color/material_scrim_color</item>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="actionOverflowMenuStyle">@style/AppTheme.PopupMenuOverlay</item>
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">
@@ -15,12 +14,26 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.BottomBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
+    <style name="AppTheme.ActionBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupMenuOverlay" parent="Widget.AppCompat.PopupMenu.Overflow">
         <item name="overlapAnchor">false</item>
         <item name="android:popupBackground">@color/colorPrimary</item>
         <item name="android:dropDownVerticalOffset">5dp</item>
         <item name="android:dropDownHorizontalOffset">0dp</item>
+    </style>
+
+    <style name="MyAppTheme.Button.White" parent="Widget.AppCompat.Button" >
+        <item name="android:colorButtonNormal">@android:color/white</item>
+        <item name="android:colorControlHighlight">@color/material_scrim_color</item>
+    </style>
+
+    <style name="MyAppTheme.Button.Yellow" parent="Theme.AppCompat.Light" >
+        <item name="colorButtonNormal">@android:color/holo_orange_light</item>
+        <item name="colorControlHighlight">@color/material_scrim_color</item>
+    </style>
+    
+    <style name="MySwitch" parent="@android:style/Widget.CompoundButton">
+        <item name="android:button">@drawable/play_pause_ic</item>
     </style>
 </resources>
