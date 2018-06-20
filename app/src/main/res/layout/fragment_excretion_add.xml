@@ -53,7 +53,21 @@
                     android:layout_marginStart="40dp"/>
             </RadioGroup>
 
-            
+            <TextView
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:layout_marginTop="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/excretion_color"/>
+            <com.cuile.cuile.babytime.view.ExcretionColorView
+                android:id="@+id/excretionColorView"
+                android:layout_marginTop="6dp"
+                android:layout_width="match_parent"
+                android:layout_height="80dp" />
+            <SeekBar
+                android:id="@+id/excretionColorSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 

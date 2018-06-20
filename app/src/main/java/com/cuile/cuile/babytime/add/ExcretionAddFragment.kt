@@ -1,8 +1,11 @@
 package com.cuile.cuile.babytime.add
 
 import android.os.Bundle
+import android.widget.SeekBar
 import com.cuile.cuile.babytime.BaseFragment
+import com.cuile.cuile.babytime.ExcretionColors
 import com.cuile.cuile.babytime.R
+import kotlinx.android.synthetic.main.fragment_excretion_add.*
 
 /**
  * Created by cuile on 18-6-4.
@@ -10,7 +13,16 @@ import com.cuile.cuile.babytime.R
  */
 class ExcretionAddFragment: BaseFragment() {
     override fun initViews() {
+        excretionColorSeekBar.max = ExcretionColors.excretionColors.size - 1
+        excretionColorSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                excretionColorView.position = progress
+            }
 
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
     }
 
     companion object {

@@ -35,6 +35,7 @@
     <string name="wetExcretion">嘘嘘</string>
     <string name="driedExcretion">粑粑</string>
     <string name="wetAndDriedExcretion">嘘嘘和粑粑</string>
+    <string name="excretion_color">便便颜色</string>
 
     <string-array name="baby_excretion_type_array">
         <item>@string/baby_excretion_type_normal</item>
