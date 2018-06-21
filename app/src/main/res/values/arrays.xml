@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="wet_how_many">
+        <item>嘘嘘大量</item>
+        <item>嘘嘘适量</item>
+        <item>嘘嘘少量</item>
+    </string-array>
+
+    <string-array name="dry_how_many">
+        <item>便便大量</item>
+        <item>便便适量</item>
+        <item>便便少量</item>
+    </string-array>
+
+    <string-array name="excretion_how_dried">
+        <item>便便干结</item>
+        <item>便便稍干</item>
+        <item>便便膏状</item>
+        <item>便便糊状</item>
+        <item>便便稀状</item>
+        <item>便便水状</item>
+    </string-array>
+</resources>

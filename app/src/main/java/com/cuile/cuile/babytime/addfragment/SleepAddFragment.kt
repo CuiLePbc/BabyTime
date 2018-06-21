@@ -1,4 +1,4 @@
-package com.cuile.cuile.babytime.add
+package com.cuile.cuile.babytime.addfragment
 
 import android.os.Bundle
 import com.cuile.cuile.babytime.BaseFragment

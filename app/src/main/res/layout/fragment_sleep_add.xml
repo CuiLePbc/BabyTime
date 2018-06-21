@@ -1,29 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
-    <TimePicker
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="开始时间"></TimePicker>
+            <TextView
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="@string/time"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+                <com.cuile.cuile.babytime.view.DateSelectTextView
+                    android:id="@+id/sleepDateTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:mode="date"/>
+                <com.cuile.cuile.babytime.view.DateSelectTextView
+                    android:id="@+id/sleepTimeTV"
+                    android:layout_marginStart="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:mode="time"/>
+            </LinearLayout>
 
-    <TimePicker
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="结束时间"></TimePicker>
-    </LinearLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_marginTop="24dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/sleepLongET"
+                    android:hint="@string/how_long_hour"
+                    android:inputType="numberDecimal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/sleepFab"
         android:layout_gravity="center_horizontal|bottom"
         android:layout_margin="@dimen/fab_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/holo_orange_light"
+        app:pressedTranslationZ="12dp"
+        app:elevation="8dp"
         android:transitionName="@string/fab_shared_name"
-        android:src="@android:drawable/ic_media_play"/>
+        android:src="@android:drawable/ic_menu_save"/>
 </android.support.design.widget.CoordinatorLayout>

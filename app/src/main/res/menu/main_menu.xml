@@ -3,6 +3,5 @@
     <item android:id="@+id/main_menu_bodydata" android:title="@string/bodydata_add" android:enabled="true" android:icon="@android:drawable/ic_menu_save" />
     <item android:id="@+id/main_menu_eat" android:title="@string/eat_add" android:enabled="true" android:icon="@android:drawable/ic_menu_agenda" />
     <item android:id="@+id/main_menu_excretion" android:title="@string/excretion_add" android:enabled="true" android:icon="@android:drawable/ic_menu_compass" />
-    <item android:id="@+id/main_menu_medicine" android:title="@string/medicine_add" android:enabled="true" android:icon="@android:drawable/ic_menu_crop" />
     <item android:id="@+id/main_menu_sleep" android:title="@string/sleep_add" android:enabled="true" android:icon="@android:drawable/ic_menu_directions" />
 </menu>

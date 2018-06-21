@@ -1,11 +1,8 @@
-package com.cuile.cuile.babytime
+package com.cuile.cuile.babytime.utils
 
 import android.Manifest
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -14,10 +11,8 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
-import android.util.Log
 import org.jetbrains.anko.support.v4.act
 import java.io.File
-import java.lang.ref.WeakReference
 
 /**
  * Created by cuile on 18-6-6.

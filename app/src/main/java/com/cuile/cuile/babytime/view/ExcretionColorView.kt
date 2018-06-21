@@ -6,11 +6,12 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
-import com.cuile.cuile.babytime.ExcretionColors
+import com.cuile.cuile.babytime.utils.ExcretionColors
+import com.cuile.cuile.babytime.R
 import org.jetbrains.anko.collections.forEachWithIndex
 import org.jetbrains.anko.dip
-import org.jetbrains.anko.px2dip
 
 /**
  * view to choose color of excretion.
@@ -18,6 +19,7 @@ import org.jetbrains.anko.px2dip
 class ExcretionColorView : View {
     private val colorPaint by lazy { Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.FILL } }
     private var colorWidth = 0f
+    private var colorHeight = 0f
 
 
     var icRadius: Float = dip(8).toFloat()
@@ -48,12 +50,18 @@ class ExcretionColorView : View {
         position = 0
         icSpace = dip(2).toFloat()
         icRadius = dip(8).toFloat()
+
+
     }
+
+    fun getCurrentColor(): String = ExcretionColors.excretionColors[position]
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         colorWidth = measuredWidth.toFloat() / ExcretionColors.excretionColors.size
-        val colorHeight = measuredHeight.toFloat() - 3 * icRadius - icSpace
+        colorHeight = measuredHeight.toFloat() - 3 * icRadius - icSpace
+
+        icRadius = colorWidth / 2
 
         ExcretionColors.excretionColors.forEachWithIndex { i, s ->
             colorPaint.color = Color.parseColor(s)
@@ -80,5 +88,34 @@ class ExcretionColorView : View {
         colorPaint.color = Color.BLUE
         colorPaint.style = Paint.Style.STROKE
         canvas.drawPath(path, colorPaint)
+
+        canvas.drawRect(0 + colorWidth * position, 0f, colorWidth + colorWidth * position, colorHeight, colorPaint)
     }
+
+    override fun onDrawForeground(canvas: Canvas?) {
+        super.onDrawForeground(canvas)
+
+        if (isEnabled) {
+            canvas?.drawColor(Color.TRANSPARENT)
+        } else {
+            canvas?.drawColor(resources.getColor(R.color.material_scrim_color, null))
+        }
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+
+        if (event == null || !isEnabled) return false
+
+        val touchX = event.x
+        val touchY = event.y
+        if (touchY > colorHeight) {
+            position = widthToPosition(touchX)
+        }
+        return true
+    }
+
+    private fun widthToPosition(touchX: Float): Int =
+            if (colorWidth != 0f) {
+                Math.floor((touchX / colorWidth).toDouble()).toInt()
+            } else 0
 }

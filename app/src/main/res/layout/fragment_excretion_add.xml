@@ -2,7 +2,8 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -32,7 +33,7 @@
                     android:id="@+id/wetType"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     android:text="@string/wetExcretion"
-                    android:checked="true"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -42,6 +43,7 @@
                     android:text="@string/driedExcretion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="true"
                     android:layout_marginStart="40dp"/>
 
                 <RadioButton
@@ -64,20 +66,95 @@
                 android:layout_marginTop="6dp"
                 android:layout_width="match_parent"
                 android:layout_height="80dp" />
-            <SeekBar
-                android:id="@+id/excretionColorSeekBar"
+
+            <TextView
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:layout_marginTop="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/how_much_excretion"/>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/excretionWetHowMany"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:entries="@array/wet_how_many"
+                    android:spinnerMode="dropdown"/>
+
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/excretionDryHowMany"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:entries="@array/dry_how_many"
+                    android:spinnerMode="dropdown" />
+
+            </LinearLayout>
+
+            <TextView
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:layout_marginTop="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/how_dried"/>
+
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/excretionDryHowHard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:entries="@array/excretion_how_dried"
+                android:layout_gravity="center_horizontal"
+                android:spinnerMode="dropdown" />
+
+            <TextView
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:layout_marginTop="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/time"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+                <com.cuile.cuile.babytime.view.DateSelectTextView
+                    android:id="@+id/excretionDateTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:mode="date"/>
+                <com.cuile.cuile.babytime.view.DateSelectTextView
+                    android:id="@+id/excretionTimeTV"
+                    android:layout_marginStart="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:mode="time"/>
+            </LinearLayout>
 
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/excretionFab"
         android:layout_gravity="center_horizontal|bottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:elevation="8dp"
+        app:pressedTranslationZ="12dp"
         android:layout_margin="@dimen/fab_margin"
         android:transitionName="@string/fab_shared_name"
-        android:src="@android:drawable/ic_input_add"/>
+        android:backgroundTint="@android:color/holo_orange_light"
+        android:src="@android:drawable/ic_menu_save"/>
 </android.support.design.widget.CoordinatorLayout>

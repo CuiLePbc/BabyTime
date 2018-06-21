@@ -1,7 +1,6 @@
-package com.cuile.cuile.babytime.add
+package com.cuile.cuile.babytime.addfragment
 
 import android.app.Activity
-import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -11,14 +10,12 @@ import android.util.Log.i
 import android.widget.Button
 import com.bumptech.glide.Glide
 import com.cuile.cuile.babytime.BaseFragment
-import com.cuile.cuile.babytime.PhotoUtil
+import com.cuile.cuile.babytime.utils.PhotoUtil
 import com.cuile.cuile.babytime.R
 import kotlinx.android.synthetic.main.fragment_bodydata_add.*
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.act
 import org.jetbrains.anko.support.v4.toast
-import java.text.SimpleDateFormat
-import java.util.*
 
 /**
  * Created by cuile on 18-6-4.
@@ -39,21 +36,6 @@ class BodydataAddFragment: BaseFragment() {
     private lateinit var cameraFileName: String
 
     override fun initViews() {
-        val calendar = Calendar.getInstance(Locale.getDefault())
-        bodydataTime.text = SimpleDateFormat("yyyy年MM月dd日", Locale.getDefault()).format(calendar.time)
-        bodydataTime.setOnClickListener {
-            DatePickerDialog(
-                    context,
-                    { _, year, month, dayOfMonth ->
-                        bodydataTime.text = "${year}年${month + 1}月${dayOfMonth}日"
-
-                    },
-                    calendar.get(Calendar.YEAR),
-                    calendar.get(Calendar.MONTH),
-                    calendar.get(Calendar.DAY_OF_MONTH)
-            ).show()
-        }
-
 
         cameraFileName = System.currentTimeMillis().toString().plus(".jpg")
         bodydataBabyImgContainer.setOnClickListener {

@@ -1,15 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fsd="http://schemas.android.com/apk/res-auto"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/mainshowFab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        android:transitionName="@string/fab_shared_name"
-        android:src="@drawable/ic_add_white_24dp"
-        android:layout_gravity="bottom|end" />
-</FrameLayout>
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="123dp"
+            android:layout_height="123dp"
+            tools:layout_editor_absoluteX="253dp"
+            tools:layout_editor_absoluteY="8dp" />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="123dp"
+            android:layout_height="123dp"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/cardView3"
+            app:layout_constraintHorizontal_bias="0.3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardView3"
+            android:layout_width="123dp"
+            android:layout_height="123dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardView2"
+            android:layout_width="123dp"
+            android:layout_height="123dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/cardView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <FrameLayout
+        android:id="@+id/fabMenuBgFrameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabMenuToBodyData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/small_fab_margin"
+            android:layout_marginBottom="296dp"
+            android:scaleX="0.0"
+            android:scaleY="0.0"
+            android:alpha="0.0"
+            android:clickable="false"
+            android:src="@drawable/ic_add_white_24dp"
+            app:fabSize="mini"
+            app:pressedTranslationZ="12dp"
+            app:elevation="8dp"
+            android:layout_gravity="bottom|end" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabMenuToEatData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/small_fab_margin"
+            android:layout_marginBottom="232dp"
+            android:src="@drawable/ic_add_white_24dp"
+            android:scaleX="0.0"
+            android:scaleY="0.0"
+            android:alpha="0.0"
+            android:clickable="false"
+            app:fabSize="mini"
+            app:pressedTranslationZ="12dp"
+            app:elevation="8dp"
+            android:layout_gravity="bottom|end" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabMenuToExcretionData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/small_fab_margin"
+            android:layout_marginBottom="168dp"
+            android:src="@drawable/ic_add_white_24dp"
+            android:scaleX="0.0"
+            android:scaleY="0.0"
+            android:alpha="0.0"
+            android:clickable="false"
+            app:fabSize="mini"
+            app:pressedTranslationZ="12dp"
+            app:elevation="8dp"
+            android:layout_gravity="bottom|end" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabMenuToSleepData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/small_fab_margin"
+            android:layout_marginBottom="104dp"
+            android:src="@drawable/ic_add_white_24dp"
+            android:scaleX="0.0"
+            android:scaleY="0.0"
+            android:alpha="0.0"
+            android:clickable="false"
+            app:fabSize="mini"
+            app:pressedTranslationZ="12dp"
+            app:elevation="8dp"
+            android:layout_gravity="bottom|end" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/mainshowFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:transitionName="@string/fab_shared_name"
+            app:pressedTranslationZ="12dp"
+            app:elevation="8dp"
+            android:src="@drawable/ic_add_white_24dp"
+            android:layout_gravity="bottom|end" />
+
+    </FrameLayout>
+</android.support.design.widget.CoordinatorLayout>

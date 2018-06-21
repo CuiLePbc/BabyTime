@@ -1,12 +1,8 @@
-package com.cuile.cuile.babytime.add
+package com.cuile.cuile.babytime.addfragment
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
-import android.graphics.drawable.VectorDrawable
 import android.os.Bundle
 import android.os.SystemClock
 import android.support.v4.view.animation.FastOutSlowInInterpolator
@@ -16,10 +12,7 @@ import android.widget.NumberPicker
 import com.cuile.cuile.babytime.BaseFragment
 import com.cuile.cuile.babytime.R
 import com.cuile.cuile.babytime.view.TextDrawable
-import kotlinx.android.synthetic.main.fragment_bodydata_add.*
 import kotlinx.android.synthetic.main.fragment_eat_add.*
-import org.jetbrains.anko.support.v4.toast
-import java.util.*
 
 /**
  * Created by cuile on 18-6-4.
@@ -78,31 +71,6 @@ class EatAddFragment: BaseFragment() {
         eatmlNP.wrapSelectorWheel = false
         eatmlNP.setFormatter { "${it * 5}" }
 
-        val calendar = Calendar.getInstance()
-        eatDateTV.setOnClickListener {
-            DatePickerDialog(
-                    context,
-                    { _, year, month, dayOfMonth ->
-                        eatDateTV.text = "${year}年${month + 1}月${dayOfMonth}日"
-
-                    },
-                    calendar.get(Calendar.YEAR),
-                    calendar.get(Calendar.MONTH),
-                    calendar.get(Calendar.DAY_OF_MONTH)
-            ).show()
-        }
-        eatTimeTV.setOnClickListener {
-            TimePickerDialog(
-                    context,
-                    { _, hour, minute ->
-                        val hStr = if (hour < 10) "0$hour" else hour.toString()
-                        eatTimeTV.text = "$hStr:$minute"
-                    },
-                    calendar.get(Calendar.HOUR_OF_DAY),
-                    calendar.get(Calendar.MINUTE),
-                    true
-            ).show()
-        }
 
     }
 

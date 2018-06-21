@@ -106,33 +106,17 @@
                 android:gravity="center_horizontal"
                 android:layout_marginTop="6dp"
                 android:orientation="horizontal">
-                <TextView
+                <com.cuile.cuile.babytime.view.DateSelectTextView
                     android:id="@+id/eatDateTV"
-                    android:text="2018年6月10日"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:padding="4dp"
-                    android:paddingStart="6dp"
-                    android:paddingEnd="6dp"
-                    android:layout_gravity="center_horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="@drawable/corner_btn_bg_light_gray"/>
-                <TextView
+                    app:mode="date"/>
+                <com.cuile.cuile.babytime.view.DateSelectTextView
                     android:id="@+id/eatTimeTV"
-                    android:text="18:15"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:padding="4dp"
-                    android:paddingStart="6dp"
-                    android:paddingEnd="6dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_gravity="center_horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="@drawable/corner_btn_bg_light_gray"/>
+                    android:layout_marginStart="8dp"
+                    app:mode="time"/>
             </LinearLayout>
 
             <TextView
