@@ -54,6 +54,8 @@ class ShowMainFragment: BaseFragment() {
                 closeFabMenu()
             }
         }
+
+        closeFabMenu()
     }
 
     private fun fabAnimation(){
@@ -116,9 +118,20 @@ class ShowMainFragment: BaseFragment() {
 
     private fun setFabMenuClickable(clickable: Boolean) {
         fabMenuToBodyData.isClickable = clickable
+        fabMenuToBodyData.isEnabled = clickable
+        fabMenuToBodyData.isFocusable = clickable
+
         fabMenuToEatData.isClickable = clickable
+        fabMenuToEatData.isEnabled = clickable
+        fabMenuToEatData.isFocusable = clickable
+
         fabMenuToExcretionData.isClickable = clickable
+        fabMenuToExcretionData.isEnabled = clickable
+        fabMenuToExcretionData.isFocusable = clickable
+
         fabMenuToSleepData.isClickable = clickable
+        fabMenuToSleepData.isEnabled = clickable
+        fabMenuToSleepData.isFocusable = clickable
     }
 
     override fun getLayout(): Int = R.layout.fragment_show_main
