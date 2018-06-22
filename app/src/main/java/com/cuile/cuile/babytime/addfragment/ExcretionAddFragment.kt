@@ -1,6 +1,7 @@
 package com.cuile.cuile.babytime.addfragment
 
 import android.os.Bundle
+import android.view.View
 import com.cuile.cuile.babytime.BaseFragment
 import com.cuile.cuile.babytime.R
 import kotlinx.android.synthetic.main.fragment_excretion_add.*
@@ -17,25 +18,57 @@ class ExcretionAddFragment: BaseFragment() {
         excretionDryHowMany.setSelection(1)
         excretionDryHowHard.setSelection(2)
 
+
         excretionTypeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
+            switchViewById(checkedId)
+
             when(checkedId) {
                 R.id.wetType -> {
-                    excretionColorView.isEnabled = false
-                    excretionColorView.invalidate()
+
                 }
                 R.id.driedType -> {
-                    excretionColorView.isEnabled = true
-                    excretionColorView.invalidate()
+
                 }
                 R.id.wetAndDriedType -> {
-                    excretionColorView.isEnabled = true
-                    excretionColorView.invalidate()
+
                 }
             }
         }
 
         excretionFab.setOnClickListener {
             toast(excretionColorView.getCurrentColor())
+        }
+    }
+
+    private fun switchViewById(checkedId: Int) {
+        when(checkedId) {
+            R.id.wetType -> {
+                excretionColorView.visibility = View.GONE
+                wetColorLayout.visibility = View.VISIBLE
+                excretionWetHowMany.visibility = View.VISIBLE
+                excretionDryHowMany.visibility = View.GONE
+
+                excretionDryHowHardLabel.visibility = View.GONE
+                excretionDryHowHard.visibility = View.GONE
+            }
+            R.id.driedType -> {
+                excretionColorView.visibility = View.VISIBLE
+                wetColorLayout.visibility = View.GONE
+                excretionWetHowMany.visibility = View.GONE
+                excretionDryHowMany.visibility = View.VISIBLE
+
+                excretionDryHowHardLabel.visibility = View.VISIBLE
+                excretionDryHowHard.visibility = View.VISIBLE
+            }
+            R.id.wetAndDriedType -> {
+                excretionColorView.visibility = View.VISIBLE
+                wetColorLayout.visibility = View.VISIBLE
+                excretionWetHowMany.visibility = View.VISIBLE
+                excretionDryHowMany.visibility = View.VISIBLE
+
+                excretionDryHowHardLabel.visibility = View.VISIBLE
+                excretionDryHowHard.visibility = View.VISIBLE
+            }
         }
     }
 

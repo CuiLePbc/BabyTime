@@ -36,4 +36,8 @@
     <style name="MySwitch" parent="@android:style/Widget.CompoundButton">
         <item name="android:button">@drawable/play_pause_ic</item>
     </style>
+    
+    <style name="SwitchThemeNapple" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@color/switch_text_selector</item>
+    </style>
 </resources>

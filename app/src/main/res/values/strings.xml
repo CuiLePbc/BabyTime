@@ -28,7 +28,7 @@
     <string name="breast_milk">母乳</string>
     <string name="which_to_eat">食物种类</string>
     <string name="how_long">时长</string>
-    <string name="how_many_to_eat">食量</string>
+    <string name="how_many_to_eat">摄入情况</string>
     <string name="other_food">其他</string>
     <string name="type_of_other_food">辅食种类</string>
     <string name="excretion_type">便便种类</string>
@@ -41,6 +41,12 @@
     <string name="how_many_dried">便便量</string>
     <string name="how_dried">便便性状</string>
     <string name="how_long_hour">时长（小时）</string>
+    <string name="left_nipple">左胸</string>
+    <string name="right_nipple">右胸</string>
+    <string name="less">少</string>
+    <string name="more">多</string>
+    <string name="light">浅色</string>
+    <string name="dark">深</string>
 
     <string-array name="baby_excretion_type_array">
         <item>@string/baby_excretion_type_normal</item>

@@ -76,9 +76,11 @@
                 android:text="@string/how_many_to_eat"/>
 
             <LinearLayout
+                android:id="@+id/eatMlLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:visibility="gone"
                 android:layout_marginTop="6dp"
                 android:orientation="horizontal">
                 <NumberPicker
@@ -91,6 +93,41 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/eatMothreLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+
+                <Switch
+                    android:id="@+id/eatNippleSwitch"
+                    android:textOn="@string/right_nipple"
+                    android:textOff="@string/left_nipple"
+                    android:showText="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:switchTextAppearance="@style/SwitchThemeNapple"
+                    android:thumb="@drawable/switch_custom_thumb_selector"
+                    android:track="@drawable/switch_custom_track_selector"/>
+
+                <TextView
+                    android:layout_marginStart="48dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/less"/>
+                <android.support.v7.widget.AppCompatSeekBar
+                    android:id="@+id/eatMotherAmount"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/more"/>
+
             </LinearLayout>
 
             <TextView

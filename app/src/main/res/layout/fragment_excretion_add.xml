@@ -67,6 +67,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="80dp" />
 
+            <LinearLayout
+                android:id="@+id/wetColorLayout"
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:visibility="gone"
+                android:orientation="horizontal">
+                <TextView
+                    android:text="@string/light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <android.support.v7.widget.AppCompatSeekBar
+                    android:id="@+id/wetColorSeekBar"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:thumbTint="@color/colorPrimaryDark"
+                    android:progressBackgroundTint="@android:color/transparent"
+                    android:secondaryProgressTint="@android:color/transparent"
+                    android:background="@drawable/wet_excretion_color_seek_bg"/>
+                <TextView
+                    android:text="@string/dark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
             <TextView
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:layout_marginTop="16dp"
@@ -86,6 +112,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:visibility="gone"
                     android:entries="@array/wet_how_many"
                     android:spinnerMode="dropdown"/>
 
@@ -101,6 +128,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/excretionDryHowHardLabel"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:layout_marginTop="16dp"
                 android:layout_width="wrap_content"

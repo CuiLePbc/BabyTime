@@ -34,15 +34,15 @@ class EatAddFragment: BaseFragment() {
     override fun initViews() {
 
         milkTypeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
+            viewSwitch(checkedId)
+
             when(checkedId) {
                 R.id.eatBreast -> {
-                    otherFoodLayout.visibility = View.GONE
+
                 }
                 R.id.eatDried -> {
-                    otherFoodLayout.visibility = View.GONE
                 }
                 R.id.eatOther -> {
-                    otherFoodLayout.visibility = View.VISIBLE
                 }
             }
         }
@@ -71,7 +71,27 @@ class EatAddFragment: BaseFragment() {
         eatmlNP.wrapSelectorWheel = false
         eatmlNP.setFormatter { "${it * 5}" }
 
+        eatMotherAmount.max = 5
+    }
 
+    private fun viewSwitch(checkedId: Int) {
+        when(checkedId) {
+            R.id.eatBreast -> {
+                otherFoodLayout.visibility = View.GONE
+                eatMlLayout.visibility = View.GONE
+                eatMothreLayout.visibility = View.VISIBLE
+            }
+            R.id.eatDried -> {
+                otherFoodLayout.visibility = View.GONE
+                eatMlLayout.visibility = View.VISIBLE
+                eatMothreLayout.visibility = View.GONE
+            }
+            R.id.eatOther -> {
+                otherFoodLayout.visibility = View.VISIBLE
+                eatMlLayout.visibility = View.VISIBLE
+                eatMothreLayout.visibility = View.GONE
+            }
+        }
     }
 
     private fun clickStopOrSubmit(){

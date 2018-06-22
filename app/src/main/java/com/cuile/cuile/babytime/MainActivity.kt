@@ -1,11 +1,8 @@
 package com.cuile.cuile.babytime
 
-import android.support.transition.Explode
 import android.support.transition.Fade
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
-import android.view.Menu
-import android.view.MenuItem
 import com.cuile.cuile.babytime.addfragment.*
 import com.cuile.cuile.babytime.showfragment.ShowMainFragment
 import com.cuile.cuile.babytime.utils.DetailsTransition
