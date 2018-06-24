@@ -7,10 +7,9 @@ import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
 
 @Suppress("unused")
-class BabyTimeDb(private val babyTimeDbHelper: BabyTimeDbHelper = BabyTimeDbHelper.INSTANCE,
-                 private val babyTimeDbDataMapper: BabyTimeDbDataMapper = BabyTimeDbDataMapper()) {
+class BabyTimeDb (private val babyTimeDbHelper: BabyTimeDbHelper = BabyTimeDbHelper(),private val babyTimeDbDataMapper: BabyTimeDbDataMapper = BabyTimeDbDataMapper()) : TaskDataSource{
 
-    fun requestBodyDataByDateRange(from: Long, to: Long) = babyTimeDbHelper.use {
+    override fun requestBodyDataByDateRange(from: Long, to: Long) = babyTimeDbHelper.use {
         val bodyDataRequest = "${BodyDataTable.DATE} >= ? and ${BodyDataTable.DATE} <= ?"
         val bodyDatas = select(BodyDataTable.TABLE)
                 .whereSimple(bodyDataRequest, from.toString(), to.toString())
@@ -26,7 +25,7 @@ class BabyTimeDb(private val babyTimeDbHelper: BabyTimeDbHelper = BabyTimeDbHelp
             null
     }
 
-    fun requestEatDataByTimeRange(from: Long, to: Long) = babyTimeDbHelper.use {
+    override fun requestEatDataByTimeRange(from: Long, to: Long) = babyTimeDbHelper.use {
         val eatDataRequest = "${EatDataTable.TIME} >= ? and ${EatDataTable.TIME} <= ?"
         val eatDatas = select(EatDataTable.TABLE)
                 .whereSimple(eatDataRequest, from.toString(), to.toString())
@@ -41,7 +40,7 @@ class BabyTimeDb(private val babyTimeDbHelper: BabyTimeDbHelper = BabyTimeDbHelp
             null
     }
 
-    fun requestExcretionDataByTimeRange(from: Long, to: Long) = babyTimeDbHelper.use {
+    override fun requestExcretionDataByTimeRange(from: Long, to: Long) = babyTimeDbHelper.use {
         val excretionDataRequest = "${ExcretionDataTable.TIME} >= ? and ${ExcretionDataTable.TIME} <= ?"
         val excretionDatas = select(ExcretionDataTable.TABLE)
                 .whereSimple(excretionDataRequest, from.toString(), to.toString())
@@ -56,7 +55,7 @@ class BabyTimeDb(private val babyTimeDbHelper: BabyTimeDbHelper = BabyTimeDbHelp
             null
     }
 
-    fun requestSleepDataByTimeRange(from: Long, to: Long) = babyTimeDbHelper.use {
+    override fun requestSleepDataByTimeRange(from: Long, to: Long) = babyTimeDbHelper.use {
         val sleepDataRequest = "${SleepDataTable.TIME} >= ? and ${SleepDataTable.TIME} <= ?"
         val sleepDatas = select(SleepDataTable.TABLE)
                 .whereSimple(sleepDataRequest, from.toString(), to.toString())
@@ -72,47 +71,47 @@ class BabyTimeDb(private val babyTimeDbHelper: BabyTimeDbHelper = BabyTimeDbHelp
             null
     }
 
-    fun saveBodyData(bodyData: BodyData) = babyTimeDbHelper.use {
+    override fun saveBodyData(bodyData: BodyData) = babyTimeDbHelper.use {
         with(babyTimeDbDataMapper.convertFromBodyDataDomain(bodyData)) {
             insert(BodyDataTable.TABLE, *map.toVarargArray())
         }
     }
 
-    fun saveEatData(eatData: EatData) = babyTimeDbHelper.use {
+    override fun saveEatData(eatData: EatData) = babyTimeDbHelper.use {
         with(babyTimeDbDataMapper.convertFromEatDataDomain(eatData)) {
             insert(EatDataTable.TABLE, *map.toVarargArray())
         }
     }
 
-    fun saveExcretionData(excretionData: ExcretionData) = babyTimeDbHelper.use {
+    override fun saveExcretionData(excretionData: ExcretionData) = babyTimeDbHelper.use {
         with(babyTimeDbDataMapper.convertFromExcretionDataDomain(excretionData)) {
             insert(ExcretionDataTable.TABLE, *map.toVarargArray())
         }
     }
 
-    fun saveSleepData(sleepData: SleepData) = babyTimeDbHelper.use {
+    override fun saveSleepData(sleepData: SleepData) = babyTimeDbHelper.use {
         with(babyTimeDbDataMapper.convertFromSleepDataDomain(sleepData)) {
             insert(SleepDataTable.TABLE, *map.toVarargArray())
         }
     }
 
-    fun deleteBodyDataById(id: Long) = babyTimeDbHelper.use {
+    override fun deleteBodyDataById(id: Long) = babyTimeDbHelper.use {
         delete(BodyDataTable.TABLE, "${BodyDataTable.ID} = {id}", "id" to id)
     }
 
-    fun deleteEatDataById(id: Long) = babyTimeDbHelper.use {
+    override fun deleteEatDataById(id: Long) = babyTimeDbHelper.use {
         delete(EatDataTable.TABLE, "${EatDataTable.ID} = {id}", "id" to id)
     }
 
-    fun deleteExcretionDataById(id: Long) = babyTimeDbHelper.use {
+    override fun deleteExcretionDataById(id: Long) = babyTimeDbHelper.use {
         delete(ExcretionDataTable.TABLE, "${ExcretionDataTable.ID} = {id}", "id" to id)
     }
 
-    fun deleteSleepDataById(id: Long) = babyTimeDbHelper.use {
+    override fun deleteSleepDataById(id: Long) = babyTimeDbHelper.use {
         delete(SleepDataTable.TABLE, "${SleepDataTable.ID} = {id}", "id" to id)
     }
 
-    fun clearAllDatas() {
+    override fun clearAllDatas() {
         babyTimeDbHelper.use {
             clear(BodyDataTable.TABLE)
             clear(EatDataTable.TABLE)

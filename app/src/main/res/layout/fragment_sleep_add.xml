@@ -39,6 +39,53 @@
                     app:mode="time"/>
             </LinearLayout>
 
+            <TextView
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:layout_marginTop="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="@string/sleep_quality"/>
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="6dp"
+                android:gravity="center"
+                android:id="@+id/sleepQualityGroup">
+                <RadioButton
+                    android:text="@string/no"
+                    android:id="@+id/sleepQualityNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <RadioButton
+                    android:id="@+id/sleepQualityLess"
+                    android:text="@string/little_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"/>
+                <RadioButton
+                    android:id="@+id/sleepQualityOk"
+                    android:text="@string/ok"
+                    android:checked="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"/>
+                <RadioButton
+                    android:id="@+id/sleepQualityBetter"
+                    android:text="@string/better"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"/>
+                <RadioButton
+                    android:id="@+id/sleepQualityGood"
+                    android:text="@string/good"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"/>
+            </RadioGroup>
+
+
             <android.support.design.widget.TextInputLayout
                 android:layout_marginTop="24dp"
                 android:layout_width="match_parent"

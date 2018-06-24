@@ -47,6 +47,13 @@
     <string name="more">多</string>
     <string name="light">浅色</string>
     <string name="dark">深</string>
+    <string name="sleep_quality">睡眠质量</string>
+    <string name="no">差</string>
+    <string name="little_no">较差</string>
+    <string name="ok">一般</string>
+    <string name="better">较好</string>
+    <string name="good">好</string>
+    <string name="excretionWetColor">嘘嘘颜色</string>
 
     <string-array name="baby_excretion_type_array">
         <item>@string/baby_excretion_type_normal</item>

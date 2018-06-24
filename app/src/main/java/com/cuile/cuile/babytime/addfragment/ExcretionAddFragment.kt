@@ -44,7 +44,11 @@ class ExcretionAddFragment: BaseFragment() {
         when(checkedId) {
             R.id.wetType -> {
                 excretionColorView.visibility = View.GONE
+                driedColorLabel.visibility = View.GONE
+
+                wetColorLabel.visibility = View.VISIBLE
                 wetColorLayout.visibility = View.VISIBLE
+
                 excretionWetHowMany.visibility = View.VISIBLE
                 excretionDryHowMany.visibility = View.GONE
 
@@ -53,6 +57,9 @@ class ExcretionAddFragment: BaseFragment() {
             }
             R.id.driedType -> {
                 excretionColorView.visibility = View.VISIBLE
+                driedColorLabel.visibility = View.VISIBLE
+
+                wetColorLabel.visibility = View.GONE
                 wetColorLayout.visibility = View.GONE
                 excretionWetHowMany.visibility = View.GONE
                 excretionDryHowMany.visibility = View.VISIBLE
@@ -62,6 +69,9 @@ class ExcretionAddFragment: BaseFragment() {
             }
             R.id.wetAndDriedType -> {
                 excretionColorView.visibility = View.VISIBLE
+                driedColorLabel.visibility = View.VISIBLE
+
+                wetColorLabel.visibility = View.VISIBLE
                 wetColorLayout.visibility = View.VISIBLE
                 excretionWetHowMany.visibility = View.VISIBLE
                 excretionDryHowMany.visibility = View.VISIBLE

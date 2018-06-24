@@ -1,6 +1,6 @@
 package com.cuile.cuile.babytime.model
 
-class BabyTimeDbDataMapper {
+class BabyTimeDbDataMapper constructor() {
 
     fun convertToBodyDatasDomain(bodyDataList: List<BodyData>) = bodyDataList.map { convertToBodyDataDomain(it) }
     private fun convertToBodyDataDomain(bodyData: BodyData) = bodyData

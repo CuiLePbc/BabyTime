@@ -10,8 +10,9 @@ import android.util.Log.i
 import android.widget.Button
 import com.bumptech.glide.Glide
 import com.cuile.cuile.babytime.BaseFragment
-import com.cuile.cuile.babytime.utils.PhotoUtil
 import com.cuile.cuile.babytime.R
+import com.cuile.cuile.babytime.contract.BodyDataAddContract
+import com.cuile.cuile.babytime.utils.PhotoUtil
 import kotlinx.android.synthetic.main.fragment_bodydata_add.*
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.act
@@ -21,7 +22,21 @@ import org.jetbrains.anko.support.v4.toast
  * Created by cuile on 18-6-4.
  *
  */
-class BodydataAddFragment: BaseFragment() {
+class BodydataAddFragment: BaseFragment(), BodyDataAddContract.View {
+    override var isActive = false
+        get() = isAdded
+    override lateinit var presenter: BodyDataAddContract.Presenter
+
+    override fun showProgress() {
+
+    }
+
+    override fun stopProgress() {
+
+    }
+
+    override fun turnToShowMainPage() {
+    }
 
 
     companion object {
