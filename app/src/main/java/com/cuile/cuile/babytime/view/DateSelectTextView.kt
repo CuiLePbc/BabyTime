@@ -29,6 +29,8 @@ class DateSelectTextView: TextView {
 
     var mode = 0
 
+    var viewTime = Calendar.getInstance().time
+
     private fun init(context: Context, attrs: AttributeSet) {
 
         val attrCount = attrs.attributeCount
@@ -55,6 +57,7 @@ class DateSelectTextView: TextView {
             val month = calendar.get(Calendar.MONTH)
             val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
             text = "${year}年${month + 1}月${dayOfMonth}日"
+
         } else if (mode == 1) {
             val hour = calendar.get(Calendar.HOUR_OF_DAY)
             val minutes = calendar.get(Calendar.MINUTE)
@@ -68,6 +71,11 @@ class DateSelectTextView: TextView {
                         { _, year, month, dayOfMonth ->
                             text = "${year}年${month + 1}月${dayOfMonth}日"
 
+                            calendar.set(Calendar.YEAR, year)
+                            calendar.set(Calendar.MONTH, month)
+                            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                            viewTime = calendar.time
+
                         },
                         calendar.get(Calendar.YEAR),
                         calendar.get(Calendar.MONTH),
@@ -79,6 +87,11 @@ class DateSelectTextView: TextView {
                         { _, hour, minute ->
                             val hStr = if (hour < 10) "0$hour" else hour.toString()
                             text = "$hStr:$minute"
+
+                            calendar.set(Calendar.HOUR_OF_DAY, hour)
+                            calendar.set(Calendar.MINUTE, minute)
+                            viewTime = calendar.time
+
                         },
                         calendar.get(Calendar.HOUR_OF_DAY),
                         calendar.get(Calendar.MINUTE),

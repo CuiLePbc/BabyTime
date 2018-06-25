@@ -13,12 +13,30 @@ import com.cuile.cuile.babytime.BaseFragment
 import com.cuile.cuile.babytime.R
 import com.cuile.cuile.babytime.view.TextDrawable
 import kotlinx.android.synthetic.main.fragment_eat_add.*
+import org.jetbrains.anko.support.v4.act
 
 /**
  * Created by cuile on 18-6-4.
  *
  */
-class EatAddFragment: BaseFragment() {
+class EatAddFragment: BaseFragment(), EatAddContract.View {
+    override var isActive: Boolean = isAdded
+
+    override fun showProgress() {
+
+    }
+
+    override fun stopProgress() {
+
+    }
+
+    override fun turnToShowMainPage() {
+        act.onBackPressed()
+    }
+
+    override var presenter: EatAddContract.Presenter = EatAddPresenter(this)
+
+
     private var isPlaying = false
     private var isStopping = false
 

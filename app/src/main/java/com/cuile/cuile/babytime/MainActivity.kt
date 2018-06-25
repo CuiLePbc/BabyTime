@@ -3,16 +3,16 @@ package com.cuile.cuile.babytime
 import android.support.transition.Fade
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
-import com.cuile.cuile.babytime.vp.body.add.BodydataAddFragment
+import com.cuile.cuile.babytime.vp.body.add.BodyAddFragment
 import com.cuile.cuile.babytime.vp.eat.add.EatAddFragment
 import com.cuile.cuile.babytime.vp.excretion.add.ExcretionAddFragment
 import com.cuile.cuile.babytime.vp.sleep.add.SleepAddFragment
 import com.cuile.cuile.babytime.utils.DetailsTransition
 import com.cuile.cuile.babytime.vp.ShowMainFragment
-import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.support.v4.find
 import org.jetbrains.anko.uiThread
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : BaseActivity() {
@@ -23,7 +23,7 @@ class MainActivity : BaseActivity() {
                 }
         )
     }
-    private val bodydataAddFragment by lazy { BodydataAddFragment.getInstance() }
+    private val bodydataAddFragment by lazy { BodyAddFragment.getInstance() }
     private val eatAddFragment by lazy { EatAddFragment.getInstance() }
     private val excretionAddFragment by lazy { ExcretionAddFragment.getInstance() }
     private val sleepAddFragment by lazy { SleepAddFragment.getInstance() }
@@ -95,7 +95,7 @@ class MainActivity : BaseActivity() {
             is ShowMainFragment -> {
                 transaction.addSharedElement(currentFragment.find(R.id.mainshowFab), getString(R.string.fab_shared_name))
             }
-            is BodydataAddFragment -> {
+            is BodyAddFragment -> {
                 transaction.addSharedElement(currentFragment.find(R.id.bodydataFab), getString(R.string.fab_shared_name))
             }
             is EatAddFragment -> {

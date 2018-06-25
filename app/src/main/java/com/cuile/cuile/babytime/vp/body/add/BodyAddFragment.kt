@@ -1,59 +1,90 @@
 package com.cuile.cuile.babytime.vp.body.add
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.design.widget.BottomSheetDialog
-import android.util.Log.i
 import android.widget.Button
 import com.bumptech.glide.Glide
 import com.cuile.cuile.babytime.BaseFragment
 import com.cuile.cuile.babytime.R
+import com.cuile.cuile.babytime.model.db.BodyData
 import com.cuile.cuile.babytime.utils.PhotoUtil
-import kotlinx.android.synthetic.main.fragment_bodydata_add.*
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.act
+import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.toast
+import kotlinx.android.synthetic.main.fragment_bodydata_add.*
 
 /**
  * Created by cuile on 18-6-4.
  *
  */
-class BodydataAddFragment: BaseFragment(), BodyDataAddContract.View {
+class BodyAddFragment: BaseFragment(), BodyAddContract.View {
     override var isActive = false
         get() = isAdded
-    override lateinit var presenter: BodyDataAddContract.Presenter
+
+    override var presenter: BodyAddContract.Presenter = BodyAddPresenter(this)
 
     override fun showProgress() {
+        bodydataFab.isClickable = false
 
+        val animator1 = ObjectAnimator.ofInt(bodydataFab, "width", dip(56))
+        val animator2 = ObjectAnimator.ofFloat(bodydataFab, "rotationY", 0f, 360f).apply {
+            repeatMode = ValueAnimator.RESTART
+            repeatCount = ValueAnimator.INFINITE
+        }
+
+        AnimatorSet().playSequentially(animator1, animator2)
     }
 
     override fun stopProgress() {
-
+        bodydataFab.isClickable = true
     }
 
     override fun turnToShowMainPage() {
+        act.onBackPressed()
     }
 
 
     companion object {
+        @Suppress("MemberVisibilityCanBePrivate")
         const val ARG_PARAM = "BodydataFragment_param_key"
-        fun getInstance(param: String = ""): BodydataAddFragment {
-            val fragment = BodydataAddFragment()
+        fun getInstance(param: String = ""): BodyAddFragment {
+            val fragment = BodyAddFragment()
             fragment.arguments = Bundle().apply { putString(ARG_PARAM, param) }
             return fragment
         }
     }
 
-    private lateinit var cameraFileName: String
-
     override fun initViews() {
-
-        cameraFileName = System.currentTimeMillis().toString().plus(".jpg")
         bodydataBabyImgContainer.setOnClickListener {
             fillPhotoDialog()
+        }
+        bodydataFab.setOnClickListener {
+
+            val height = bodydataBabyHeight.text.toString().toFloatOrNull()
+            val weight = bodydataBabyWeight.text.toString().toFloatOrNull()
+            val photo = if (presenter.imageName.isNullOrEmpty()) "" else PhotoUtil.getImageFullPath(this, presenter.imageName)
+            val date = bodydataTime.viewTime.time
+
+            if (height == null || weight == null) {
+                toast("Please put in height and weight")
+                return@setOnClickListener
+            }
+            presenter.saveData(BodyData(
+                    name = "",
+                    height = height,
+                    weight = weight,
+                    photo = photo,
+                    date = date,
+                    other = ""
+            ))
         }
     }
 
@@ -63,7 +94,7 @@ class BodydataAddFragment: BaseFragment(), BodyDataAddContract.View {
 
         if (requestCode == PhotoUtil.CAMERA_TAKE_PHOTO_REQUEST_CODE) {
             Glide.with(act)
-                    .load(PhotoUtil.getImageFullPath(this, cameraFileName))
+                    .load(PhotoUtil.getImageFullPath(this, presenter.imageName))
                     .into(bodydataBabyImg)
         } else if (requestCode == PhotoUtil.CHOOSE_PHOTO_REQUEST_CODE) {
             val selectedPhotoUri = data?.data
@@ -75,7 +106,7 @@ class BodydataAddFragment: BaseFragment(), BodyDataAddContract.View {
             )
             cursor.moveToFirst()
             val photoPath = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA))
-            i("photoPath:", photoPath)
+
             cursor.close()
 
             Glide.with(act).load(photoPath).into(bodydataBabyImg)
@@ -85,7 +116,7 @@ class BodydataAddFragment: BaseFragment(), BodyDataAddContract.View {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (requestCode == PhotoUtil.CAMERA_PERMISSION_REQUEST_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                PhotoUtil.checkAndTakePhoto(this, cameraFileName)
+                PhotoUtil.checkAndTakePhoto(this, presenter.imageName)
             } else {
                 toast("CAMERA PERMISSION DENIED")
             }
@@ -108,14 +139,14 @@ class BodydataAddFragment: BaseFragment(), BodyDataAddContract.View {
         bottomSheetDialog.show()
 
         bottomSheetDialog.find<Button>(R.id.bodydata_dialog_take_photo).setOnClickListener {
-            PhotoUtil.checkAndTakePhoto(this, cameraFileName)
+            presenter.requestCameraPhoto()
             bottomSheetDialog.cancel()
         }
         bottomSheetDialog.find<Button>(R.id.bodydata_dialog_cancel_photo).setOnClickListener {
             bottomSheetDialog.cancel()
         }
         bottomSheetDialog.find<Button>(R.id.bodydata_dialog_choose_photo).setOnClickListener {
-            PhotoUtil.choosePhoto(this)
+            presenter.requestCameraPhoto()
             bottomSheetDialog.cancel()
         }
     }

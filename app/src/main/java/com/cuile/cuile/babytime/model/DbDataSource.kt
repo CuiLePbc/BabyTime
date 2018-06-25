@@ -8,7 +8,7 @@ import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
 
 @Suppress("unused")
-class BabyTimeDbDataSource (private val babyTimeDbHelper: BabyTimeDbHelper = BabyTimeDbHelper(), private val babyTimeDbDataMapper: BabyTimeDbDataMapper = BabyTimeDbDataMapper()) : DataSourceInterface {
+class DbDataSource (private val babyTimeDbHelper: BabyTimeDbHelper = BabyTimeDbHelper(), private val babyTimeDbDataMapper: BabyTimeDbDataMapper = BabyTimeDbDataMapper()) : DataSourceInterface {
 
     override fun requestBodyDataByDateRange(from: Long, to: Long) = babyTimeDbHelper.use {
         val bodyDataRequest = "${BodyDataTable.DATE} >= ? and ${BodyDataTable.DATE} <= ?"

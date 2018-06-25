@@ -1,11 +1,14 @@
-package com.cuile.cuile.babytime.vp.body.add
+package com.cuile.cuile.babytime.vp.eat.add
 
 import com.cuile.cuile.babytime.BasePresenter
 import com.cuile.cuile.babytime.BaseView
-import com.cuile.cuile.babytime.model.db.BodyData
+import com.cuile.cuile.babytime.model.db.EatData
 
-interface BodyDataAddContract {
-
+/**
+ * Created by cuile on 18-6-25.
+ *
+ */
+interface EatAddContract {
     interface View : BaseView<Presenter> {
         var isActive: Boolean
         fun showProgress()
@@ -16,6 +19,6 @@ interface BodyDataAddContract {
     interface Presenter : BasePresenter {
         var isDataMissing: Boolean
 
-        fun saveData(bodyData: BodyData)
+        fun saveData(eatData: EatData)
     }
 }
