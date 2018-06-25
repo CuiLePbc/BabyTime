@@ -59,6 +59,8 @@
     <string name="excretion_data">便便记录</string>
     <string name="sleep_data">睡眠记录</string>
     <string name="more_info"><![CDATA[更多>>]]></string>
+    <string name="minutes">分钟</string>
+    <string name="hour">小时</string>
 
     <string-array name="baby_excretion_type_array">
         <item>@string/baby_excretion_type_normal</item>

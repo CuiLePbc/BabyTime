@@ -5,15 +5,20 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.os.Bundle
 import android.os.SystemClock
+import android.support.design.widget.BottomSheetDialog
 import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.text.Layout
 import android.view.View
+import android.widget.Button
 import android.widget.NumberPicker
 import com.cuile.cuile.babytime.BaseFragment
 import com.cuile.cuile.babytime.R
+import com.cuile.cuile.babytime.utils.DetailsTransition
 import com.cuile.cuile.babytime.view.TextDrawable
 import kotlinx.android.synthetic.main.fragment_eat_add.*
+import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.act
+import org.jetbrains.anko.support.v4.toast
 
 /**
  * Created by cuile on 18-6-4.
@@ -79,6 +84,7 @@ class EatAddFragment: BaseFragment(), EatAddContract.View {
         eatDurationChron.format = "$hourStr:%s"
         eatDurationChron.setOnClickListener {
             // 手动指定时间
+            showTimeFillDialog()
         }
 
 
@@ -90,6 +96,33 @@ class EatAddFragment: BaseFragment(), EatAddContract.View {
         eatmlNP.setFormatter { "${it * 5}" }
 
         eatMotherAmount.max = 5
+    }
+
+    private fun showTimeFillDialog() {
+        val bottomSheetDialog = BottomSheetDialog(act).apply {
+            setCancelable(true)
+            setContentView(R.layout.dialog_edit_duration)
+        }
+        bottomSheetDialog.show()
+
+        val currentDuration = eatDurationChron.text.toString().split(":")
+
+        val hourPicker = bottomSheetDialog.find<NumberPicker>(R.id.hourPicker)
+        hourPicker.wrapSelectorWheel = false
+        hourPicker.minValue = 0
+        hourPicker.maxValue = 12
+        hourPicker.value = currentDuration[0].toInt()
+        val minutesPicker = bottomSheetDialog.find<NumberPicker>(R.id.minutesPicker)
+        minutesPicker.wrapSelectorWheel = true
+        minutesPicker.maxValue = 60
+        minutesPicker.minValue = 0
+        minutesPicker.value = currentDuration[1].toInt()
+
+        bottomSheetDialog.find<Button>(R.id.durationPickSureBtn).setOnClickListener {
+            eatDurationChron.stop()
+            eatDurationChron.text = "${hourPicker.value}:${minutesPicker.value}:00"
+            bottomSheetDialog.cancel()
+        }
     }
 
     private fun viewSwitch(checkedId: Int) {
