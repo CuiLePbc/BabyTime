@@ -1,6 +1,11 @@
 package com.cuile.cuile.babytime.model
 
-interface TaskDataSource {
+import com.cuile.cuile.babytime.model.db.BodyData
+import com.cuile.cuile.babytime.model.db.EatData
+import com.cuile.cuile.babytime.model.db.ExcretionData
+import com.cuile.cuile.babytime.model.db.SleepData
+
+interface DataSourceInterface {
 
     fun requestBodyDataByDateRange(from: Long, to: Long): List<BodyData>?
 

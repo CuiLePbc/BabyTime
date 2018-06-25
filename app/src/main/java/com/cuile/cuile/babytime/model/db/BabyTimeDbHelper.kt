@@ -1,4 +1,4 @@
-package com.cuile.cuile.babytime.model
+package com.cuile.cuile.babytime.model.db
 
 import android.database.sqlite.SQLiteDatabase
 import com.cuile.cuile.babytime.MyApplication

@@ -1,4 +1,4 @@
-package com.cuile.cuile.babytime.model
+package com.cuile.cuile.babytime.model.db
 
 class BodyData(val map: MutableMap<String, Any?>) {
 

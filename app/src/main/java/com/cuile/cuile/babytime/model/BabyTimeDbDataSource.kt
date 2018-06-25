@@ -1,13 +1,14 @@
 package com.cuile.cuile.babytime.model
 
 import android.database.sqlite.SQLiteDatabase
+import com.cuile.cuile.babytime.model.db.*
 import org.jetbrains.anko.db.MapRowParser
 import org.jetbrains.anko.db.delete
 import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
 
 @Suppress("unused")
-class BabyTimeDb (private val babyTimeDbHelper: BabyTimeDbHelper = BabyTimeDbHelper(),private val babyTimeDbDataMapper: BabyTimeDbDataMapper = BabyTimeDbDataMapper()) : TaskDataSource{
+class BabyTimeDbDataSource (private val babyTimeDbHelper: BabyTimeDbHelper = BabyTimeDbHelper(), private val babyTimeDbDataMapper: BabyTimeDbDataMapper = BabyTimeDbDataMapper()) : DataSourceInterface {
 
     override fun requestBodyDataByDateRange(from: Long, to: Long) = babyTimeDbHelper.use {
         val bodyDataRequest = "${BodyDataTable.DATE} >= ? and ${BodyDataTable.DATE} <= ?"
