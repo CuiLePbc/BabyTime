@@ -48,6 +48,8 @@ class EatData(val map: MutableMap<String, Any?>) {
     var milkMl: Int by map
     var nippleSide: Int by map
     var time: Long by map
+
+    /** second */
     var duration: Int by map
     var other: String by map
 }
@@ -76,6 +78,8 @@ class ExcretionData(val map: MutableMap<String, Any?>) {
     var _id: Long by map
     var name: String by map
     var type: Int by map
+
+    /** 便便颜色 */
     var color: String by map
     var wetAmount: Int by map
     var driedAmount: Int by map

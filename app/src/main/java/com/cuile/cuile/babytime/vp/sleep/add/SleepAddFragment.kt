@@ -3,14 +3,67 @@ package com.cuile.cuile.babytime.vp.sleep.add
 import android.os.Bundle
 import com.cuile.cuile.babytime.BaseFragment
 import com.cuile.cuile.babytime.R
+import com.cuile.cuile.babytime.model.db.SleepData
+import com.cuile.cuile.babytime.utils.ValueUtils
+import kotlinx.android.synthetic.main.fragment_sleep_add.*
+import org.jetbrains.anko.support.v4.act
+import java.util.*
 
 /**
  * Created by cuile on 18-6-4.
  *
  */
-class SleepAddFragment: BaseFragment() {
-    override fun initViews() {
+class SleepAddFragment: BaseFragment(), SleepAddContract.View {
+    override var isActive: Boolean = isAdded
+    override var presenter: SleepAddContract.Presenter = SleepAddPresenter(this)
 
+    override fun showProgress() {
+
+    }
+
+    override fun stopProgress() {
+
+    }
+
+    override fun turnToShowMainPage() {
+        act.onBackPressed()
+    }
+
+
+
+    override fun initViews() {
+        sleepFab.setOnClickListener {
+
+
+            val date = Calendar.getInstance().apply { time = sleepDateTV.viewTime }
+            val time = Calendar.getInstance().apply { time = sleepTimeTV.viewTime }
+            val resultTimeInLong = Calendar.getInstance().apply {
+                set(date.get(Calendar.YEAR),
+                        date.get(Calendar.MONTH),
+                        date.get(Calendar.DAY_OF_MONTH),
+                        time.get(Calendar.HOUR_OF_DAY),
+                        time.get(Calendar.MINUTE))
+            }.timeInMillis
+
+            val qualityInt = when(sleepQualityGroup.checkedRadioButtonId) {
+                R.id.sleepQualityNo -> ValueUtils.SleepValue.QUALITY_NO
+                R.id.sleepQualityLess -> ValueUtils.SleepValue.QUALITY_LESS
+                R.id.sleepQualityOk -> ValueUtils.SleepValue.QUALITY_OK
+                R.id.sleepQualityBetter -> ValueUtils.SleepValue.QUALITY_BETTER
+                R.id.sleepQualityGood -> ValueUtils.SleepValue.QUALITY_GOOD
+                else -> -1
+            }
+
+            val sleepData = SleepData(
+                    name = "",
+                    time = resultTimeInLong,
+                    duration = sleepLongET.text.toString().toInt(),
+                    quality = qualityInt,
+                    other = ""
+            )
+
+            presenter.saveData(sleepData)
+        }
     }
 
     companion object {

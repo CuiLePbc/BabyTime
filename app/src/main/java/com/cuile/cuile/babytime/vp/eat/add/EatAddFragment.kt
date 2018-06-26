@@ -13,12 +13,15 @@ import android.widget.Button
 import android.widget.NumberPicker
 import com.cuile.cuile.babytime.BaseFragment
 import com.cuile.cuile.babytime.R
+import com.cuile.cuile.babytime.model.db.EatData
 import com.cuile.cuile.babytime.utils.DetailsTransition
+import com.cuile.cuile.babytime.utils.ValueUtils
 import com.cuile.cuile.babytime.view.TextDrawable
 import kotlinx.android.synthetic.main.fragment_eat_add.*
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.act
 import org.jetbrains.anko.support.v4.toast
+import java.util.*
 
 /**
  * Created by cuile on 18-6-4.
@@ -26,6 +29,7 @@ import org.jetbrains.anko.support.v4.toast
  */
 class EatAddFragment: BaseFragment(), EatAddContract.View {
     override var isActive: Boolean = isAdded
+    override var presenter: EatAddContract.Presenter = EatAddPresenter(this)
 
     override fun showProgress() {
 
@@ -39,7 +43,7 @@ class EatAddFragment: BaseFragment(), EatAddContract.View {
         act.onBackPressed()
     }
 
-    override var presenter: EatAddContract.Presenter = EatAddPresenter(this)
+
 
 
     private var isPlaying = false
@@ -120,7 +124,9 @@ class EatAddFragment: BaseFragment(), EatAddContract.View {
 
         bottomSheetDialog.find<Button>(R.id.durationPickSureBtn).setOnClickListener {
             eatDurationChron.stop()
-            eatDurationChron.text = "${hourPicker.value}:${minutesPicker.value}:00"
+            val hourStr = if(hourPicker.value > 9) hourPicker.value.toString() else "0${hourPicker.value}"
+            val minutesStr = if (minutesPicker.value > 9) minutesPicker.value.toString() else "0${minutesPicker.value}"
+            eatDurationChron.text = "$hourStr:$minutesStr:00"
             bottomSheetDialog.cancel()
         }
     }
@@ -202,9 +208,52 @@ class EatAddFragment: BaseFragment(), EatAddContract.View {
         eatDurationChron.stop()
     }
     private fun stop(){
+        eatDurationChron.stop()
+    }
+    private fun submit(){
+
+        val foodType = when(milkTypeRadioGroup.checkedRadioButtonId) {
+            R.id.eatBreast -> ValueUtils.EatValue.FOOD_TYPE_BREAST
+            R.id.eatDried -> ValueUtils.EatValue.FOOD_TYPE_DRIED
+            R.id.eatOther -> ValueUtils.EatValue.FOOD_TYPE_OTHER
+            else -> -1
+        }
+
+        val nippleSide =
+                if (eatNippleSwitch.isChecked) ValueUtils.EatValue.NIPPLE_RIGHT_SIDE
+                else ValueUtils.EatValue.NIPPLE_LEFT_SIDE
+
+        val date = Calendar.getInstance().apply { time = eatDateTV.viewTime }
+        val time = Calendar.getInstance().apply { time = eatTimeTV.viewTime }
+        val resultTimeInLong = Calendar.getInstance().apply {
+            set(date.get(Calendar.YEAR),
+                    date.get(Calendar.MONTH),
+                    date.get(Calendar.DAY_OF_MONTH),
+                    time.get(Calendar.HOUR_OF_DAY),
+                    time.get(Calendar.MINUTE))
+        }.timeInMillis
+
+
+        val durationStr = eatDurationChron.text.split(":")
+        val durationHourBySecond = durationStr[0].toInt() * 60 * 60
+        val durationMinutesBySecond = durationStr[1].toInt() * 60
+        val durationSeconds = durationStr[2].toInt()
+        val duration = durationHourBySecond + durationMinutesBySecond + durationSeconds
+
+        val eatData = EatData(
+                name = "",
+                foodType = foodType,
+                extraFoodName = otherFoodTV.text.toString(),
+                milkMl = eatmlNP.value,
+                nippleSide = nippleSide,
+                time = resultTimeInLong,
+                duration = duration,
+                other = ""
+        )
+
+        presenter.saveData(eatData)
 
     }
-    private fun submit(){}
 
 
 
