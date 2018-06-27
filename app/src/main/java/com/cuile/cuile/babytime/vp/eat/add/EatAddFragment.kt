@@ -4,23 +4,17 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.os.Bundle
-import android.os.SystemClock
-import android.support.design.widget.BottomSheetDialog
 import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.text.Layout
 import android.view.View
-import android.widget.Button
 import android.widget.NumberPicker
 import com.cuile.cuile.babytime.BaseFragment
 import com.cuile.cuile.babytime.R
 import com.cuile.cuile.babytime.model.db.EatData
-import com.cuile.cuile.babytime.utils.DetailsTransition
 import com.cuile.cuile.babytime.utils.ValueUtils
 import com.cuile.cuile.babytime.view.TextDrawable
 import kotlinx.android.synthetic.main.fragment_eat_add.*
-import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.act
-import org.jetbrains.anko.support.v4.toast
 import java.util.*
 
 /**
@@ -44,16 +38,17 @@ class EatAddFragment: BaseFragment(), EatAddContract.View {
     }
 
 
-
-
-    private var isPlaying = false
-    private var isStopping = false
-
     override fun onResume() {
         super.onResume()
-        isPlaying = false
-        isStopping = false
-        eatDurationChron.base = SystemClock.elapsedRealtime()
+        eatDurationTV.resume()
+        resumeStartOrPause()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (eatDurationTV.isRunning) {
+            eatDurationTV.runningBackground()
+        }
     }
 
 
@@ -62,16 +57,6 @@ class EatAddFragment: BaseFragment(), EatAddContract.View {
 
         milkTypeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             viewSwitch(checkedId)
-
-            when(checkedId) {
-                R.id.eatBreast -> {
-
-                }
-                R.id.eatDried -> {
-                }
-                R.id.eatOther -> {
-                }
-            }
         }
 
         eatFab_start_or_pause.setOnClickListener {
@@ -82,16 +67,6 @@ class EatAddFragment: BaseFragment(), EatAddContract.View {
             clickStopOrSubmit()
         }
 
-
-        val hour = (SystemClock.elapsedRealtime() - eatDurationChron.base) / 1000 / 60
-        val hourStr = if (hour < 10) "0$hour" else "$hour"
-        eatDurationChron.format = "$hourStr:%s"
-        eatDurationChron.setOnClickListener {
-            // 手动指定时间
-            showTimeFillDialog()
-        }
-
-
         eatmlNP.value = 50
         eatmlNP.minValue = 0
         eatmlNP.maxValue = 300
@@ -100,35 +75,6 @@ class EatAddFragment: BaseFragment(), EatAddContract.View {
         eatmlNP.setFormatter { "${it * 5}" }
 
         eatMotherAmount.max = 5
-    }
-
-    private fun showTimeFillDialog() {
-        val bottomSheetDialog = BottomSheetDialog(act).apply {
-            setCancelable(true)
-            setContentView(R.layout.dialog_edit_duration)
-        }
-        bottomSheetDialog.show()
-
-        val currentDuration = eatDurationChron.text.toString().split(":")
-
-        val hourPicker = bottomSheetDialog.find<NumberPicker>(R.id.hourPicker)
-        hourPicker.wrapSelectorWheel = false
-        hourPicker.minValue = 0
-        hourPicker.maxValue = 12
-        hourPicker.value = currentDuration[0].toInt()
-        val minutesPicker = bottomSheetDialog.find<NumberPicker>(R.id.minutesPicker)
-        minutesPicker.wrapSelectorWheel = true
-        minutesPicker.maxValue = 60
-        minutesPicker.minValue = 0
-        minutesPicker.value = currentDuration[1].toInt()
-
-        bottomSheetDialog.find<Button>(R.id.durationPickSureBtn).setOnClickListener {
-            eatDurationChron.stop()
-            val hourStr = if(hourPicker.value > 9) hourPicker.value.toString() else "0${hourPicker.value}"
-            val minutesStr = if (minutesPicker.value > 9) minutesPicker.value.toString() else "0${minutesPicker.value}"
-            eatDurationChron.text = "$hourStr:$minutesStr:00"
-            bottomSheetDialog.cancel()
-        }
     }
 
     private fun viewSwitch(checkedId: Int) {
@@ -180,35 +126,41 @@ class EatAddFragment: BaseFragment(), EatAddContract.View {
                     })
                 }
 
-        if (isStopping) {
+        if (!eatDurationTV.isRunning && !eatDurationTV.isPausing) {
             submit()
         } else {
-            isStopping = true
             ani.start()
             stop()
         }
     }
 
-    private fun switchStartOrPause() {
-        if (isPlaying) {
+    private fun resumeStartOrPause() {
+        if (!eatDurationTV.isRunning) {
             eatFab_start_or_pause.setImageDrawable(resources.getDrawable(android.R.drawable.ic_media_play, null))
-            isPlaying = false
+        } else {
+            eatFab_start_or_pause.setImageDrawable(resources.getDrawable(android.R.drawable.ic_media_pause, null))
+
+        }
+    }
+
+    private fun switchStartOrPause() {
+        if (eatDurationTV.isRunning) {
+            eatFab_start_or_pause.setImageDrawable(resources.getDrawable(android.R.drawable.ic_media_play, null))
             pause()
         } else {
             eatFab_start_or_pause.setImageDrawable(resources.getDrawable(android.R.drawable.ic_media_pause, null))
-            isPlaying = true
             play()
         }
     }
 
     private fun play(){
-        eatDurationChron.start()
+        eatDurationTV.start()
     }
     private fun pause(){
-        eatDurationChron.stop()
+        eatDurationTV.pause()
     }
     private fun stop(){
-        eatDurationChron.stop()
+        eatDurationTV.stop()
     }
     private fun submit(){
 
@@ -234,11 +186,7 @@ class EatAddFragment: BaseFragment(), EatAddContract.View {
         }.timeInMillis
 
 
-        val durationStr = eatDurationChron.text.split(":")
-        val durationHourBySecond = durationStr[0].toInt() * 60 * 60
-        val durationMinutesBySecond = durationStr[1].toInt() * 60
-        val durationSeconds = durationStr[2].toInt()
-        val duration = durationHourBySecond + durationMinutesBySecond + durationSeconds
+        val duration = eatDurationTV.durationSec.toInt()
 
         val eatData = EatData(
                 name = "",

@@ -1,12 +1,13 @@
 package com.cuile.cuile.babytime.view
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.TextView
 import com.cuile.cuile.babytime.R
-import kotlinx.android.synthetic.main.fragment_eat_add.*
+import com.cuile.cuile.babytime.utils.two
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.textAppearance
 import java.util.*
@@ -31,6 +32,7 @@ class DateSelectTextView: TextView {
 
     var viewTime = Calendar.getInstance().time
 
+    @SuppressLint("SetTextI18n")
     private fun init(context: Context, attrs: AttributeSet) {
 
         val attrCount = attrs.attributeCount
@@ -61,7 +63,7 @@ class DateSelectTextView: TextView {
         } else if (mode == 1) {
             val hour = calendar.get(Calendar.HOUR_OF_DAY)
             val minutes = calendar.get(Calendar.MINUTE)
-            text = "${hour}:${minutes}"
+            text = "${hour.two()}:${minutes.two()}"
         }
 
         setOnClickListener {
@@ -85,8 +87,7 @@ class DateSelectTextView: TextView {
                 TimePickerDialog(
                         context,
                         { _, hour, minute ->
-                            val hStr = if (hour < 10) "0$hour" else hour.toString()
-                            text = "$hStr:$minute"
+                            text = "${hour.two()}:${minute.two()}"
 
                             calendar.set(Calendar.HOUR_OF_DAY, hour)
                             calendar.set(Calendar.MINUTE, minute)
