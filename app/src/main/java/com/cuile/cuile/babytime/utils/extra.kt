@@ -1,5 +1,9 @@
 package com.cuile.cuile.babytime.utils
 
+import android.support.design.widget.FloatingActionButton
+import android.view.ViewManager
+import org.jetbrains.anko.custom.ankoView
+
 /**
  * Created by cuile on 18-6-27.
  *
@@ -27,3 +31,6 @@ fun Long.sToHMS(): Array<Int> {
 
     return arrayOf(hour, minute, second)
 }
+
+fun ViewManager.fabView(init: android.support.design.widget.FloatingActionButton.() -> Unit) =
+        ankoView({FloatingActionButton(it)}, theme = 0) { init() }

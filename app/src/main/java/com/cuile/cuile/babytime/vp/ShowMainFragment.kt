@@ -3,6 +3,7 @@ package com.cuile.cuile.babytime.vp
 import android.os.Bundle
 import com.cuile.cuile.babytime.BaseFragment
 import com.cuile.cuile.babytime.R
+import com.cuile.cuile.babytime.R.id.*
 import kotlinx.android.synthetic.main.fragment_show_main.*
 
 /**
@@ -12,7 +13,7 @@ import kotlinx.android.synthetic.main.fragment_show_main.*
 class ShowMainFragment: BaseFragment() {
     companion object {
         const val ARG_PARAM = "ShowMainFragment_param_key"
-        fun getInstance(param: String = "", fabMenuItemClickListener: FabMenuItemClickListener): ShowMainFragment {
+        fun getInstance(param: String = "", fabMenuItemClickListener: ((Int) -> Unit)?): ShowMainFragment {
             val fragment = ShowMainFragment()
             fragment.arguments = Bundle().apply { putString(ARG_PARAM, param) }
             fragment.fabMenuItemClickListener = fabMenuItemClickListener
@@ -20,135 +21,21 @@ class ShowMainFragment: BaseFragment() {
         }
     }
 
-    private var isFabOpen = false
-
-    var fabMenuItemClickListener: FabMenuItemClickListener? = null
+    var fabMenuItemClickListener: ((Int) -> Unit)? = null
 
 
     override fun initViews() {
 
-        mainshowFab.setOnClickListener {
-            fabAnimation()
-        }
-
-        fabMenuToBodyData.setOnClickListener {
-            closeFabMenu()
-
-            fabMenuItemClickListener?.fabMenuItemClicked(R.id.fabMenuToBodyData)
-        }
-        fabMenuToEatData.setOnClickListener {
-            closeFabMenu()
-            fabMenuItemClickListener?.fabMenuItemClicked(R.id.fabMenuToEatData)
-        }
-        fabMenuToExcretionData.setOnClickListener {
-            closeFabMenu()
-            fabMenuItemClickListener?.fabMenuItemClicked(R.id.fabMenuToExcretionData)
-        }
-        fabMenuToSleepData.setOnClickListener {
-            closeFabMenu()
-            fabMenuItemClickListener?.fabMenuItemClicked(R.id.fabMenuToSleepData)
-        }
-
-        fabMenuBgFrameLayout.setOnClickListener {
-            if (isFabOpen) {
-                closeFabMenu()
+        fabMenuFrameLayout.fabMenuItemClicked = {
+            if (fabMenuItemClickListener != null) {
+                fabMenuItemClickListener?.invoke(it)
             }
         }
-
-        closeFabMenu()
-    }
-
-    private fun fabAnimation(){
-        isFabOpen = if (isFabOpen) {
-            startAnimation(!isFabOpen)
-            setFabMenuClickable(!isFabOpen)
-            false
-        } else {
-            startAnimation(!isFabOpen)
-            setFabMenuClickable(!isFabOpen)
-            true
-        }
-    }
-
-    private fun closeFabMenu() {
-        startAnimation(false)
-        setFabMenuClickable(false)
-        isFabOpen = false
     }
 
     override fun onPause() {
         super.onPause()
-        closeFabMenu()
-    }
-
-    private fun startAnimation(isOpen: Boolean) {
-        val rotateAnimation = if (isOpen) 45f else 0f
-        val fabMenuControlNum = if (isOpen) 1f else 0f
-
-        mainshowFab.animate().setDuration(200)
-                .rotation(rotateAnimation)
-                .start()
-
-        fabMenuToBodyDataLabel.animate().setDuration(200)
-                .scaleX(fabMenuControlNum)
-                .scaleY(fabMenuControlNum)
-                .alpha(fabMenuControlNum)
-                .start()
-        fabMenuToEatDataLabel.animate().setDuration(200)
-                .scaleX(fabMenuControlNum)
-                .scaleY(fabMenuControlNum)
-                .alpha(fabMenuControlNum)
-                .start()
-        fabMenuToExcretionDataLabel.animate().setDuration(200)
-                .scaleX(fabMenuControlNum)
-                .scaleY(fabMenuControlNum)
-                .alpha(fabMenuControlNum)
-                .start()
-        fabMenuToSleepDataLabel.animate().setDuration(200)
-                .scaleX(fabMenuControlNum)
-                .scaleY(fabMenuControlNum)
-                .alpha(fabMenuControlNum)
-                .start()
-
-
-        fabMenuToBodyData.animate().setDuration(200)
-                .scaleX(fabMenuControlNum)
-                .scaleY(fabMenuControlNum)
-                .alpha(fabMenuControlNum)
-                .start()
-        fabMenuToEatData.animate().setDuration(200)
-                .scaleX(fabMenuControlNum)
-                .scaleY(fabMenuControlNum)
-                .alpha(fabMenuControlNum)
-                .start()
-        fabMenuToExcretionData.animate().setDuration(200)
-                .scaleX(fabMenuControlNum)
-                .scaleY(fabMenuControlNum)
-                .alpha(fabMenuControlNum)
-                .start()
-        fabMenuToSleepData.animate().setDuration(200)
-                .scaleX(fabMenuControlNum)
-                .scaleY(fabMenuControlNum)
-                .alpha(fabMenuControlNum)
-                .start()
-    }
-
-    private fun setFabMenuClickable(clickable: Boolean) {
-        fabMenuToBodyData.isClickable = clickable
-        fabMenuToBodyData.isEnabled = clickable
-        fabMenuToBodyData.isFocusable = clickable
-
-        fabMenuToEatData.isClickable = clickable
-        fabMenuToEatData.isEnabled = clickable
-        fabMenuToEatData.isFocusable = clickable
-
-        fabMenuToExcretionData.isClickable = clickable
-        fabMenuToExcretionData.isEnabled = clickable
-        fabMenuToExcretionData.isFocusable = clickable
-
-        fabMenuToSleepData.isClickable = clickable
-        fabMenuToSleepData.isEnabled = clickable
-        fabMenuToSleepData.isFocusable = clickable
+        fabMenuFrameLayout.closeFabMenu()
     }
 
     override fun getLayout(): Int = R.layout.fragment_show_main

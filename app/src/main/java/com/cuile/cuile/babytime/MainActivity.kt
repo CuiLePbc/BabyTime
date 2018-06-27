@@ -8,6 +8,7 @@ import com.cuile.cuile.babytime.vp.eat.add.EatAddFragment
 import com.cuile.cuile.babytime.vp.excretion.add.ExcretionAddFragment
 import com.cuile.cuile.babytime.vp.sleep.add.SleepAddFragment
 import com.cuile.cuile.babytime.utils.DetailsTransition
+import com.cuile.cuile.babytime.view.FabMenuFrameLayout
 import com.cuile.cuile.babytime.vp.ShowMainFragment
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.support.v4.find
@@ -17,11 +18,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
     private val showMainFragment by lazy {
-        ShowMainFragment.getInstance(
-                fabMenuItemClickListener = object : ShowMainFragment.FabMenuItemClickListener{
-                    override fun fabMenuItemClicked(clickedId: Int) { changeFragmentById(clickedId) }
-                }
-        )
+        ShowMainFragment.getInstance(fabMenuItemClickListener =  { changeFragmentById(it) })
     }
     private val bodydataAddFragment by lazy { BodyAddFragment.getInstance() }
     private val eatAddFragment by lazy { EatAddFragment.getInstance() }
@@ -54,19 +51,19 @@ class MainActivity : BaseActivity() {
             Thread.sleep(200)
             uiThread {
                 when(id) {
-                    R.id.fabMenuToBodyData -> {
+                    0 -> {
                         changeToFragment(bodydataAddFragment)
                         mainToolbar.title = getString(R.string.bodydata_add)
                     }
-                    R.id.fabMenuToEatData -> {
+                    1 -> {
                         changeToFragment(eatAddFragment)
                         mainToolbar.title = getString(R.string.eat_add)
                     }
-                    R.id.fabMenuToExcretionData -> {
+                    2 -> {
                         changeToFragment(excretionAddFragment)
                         mainToolbar.title = getString(R.string.excretion_add)
                     }
-                    R.id.fabMenuToSleepData -> {
+                    3 -> {
                         changeToFragment(sleepAddFragment)
                         mainToolbar.title = getString(R.string.sleep_add)
                     }
@@ -93,7 +90,7 @@ class MainActivity : BaseActivity() {
     private fun addSharedElement(transaction: FragmentTransaction) {
         when(currentFragment) {
             is ShowMainFragment -> {
-                transaction.addSharedElement(currentFragment.find(R.id.mainshowFab), getString(R.string.fab_shared_name))
+                transaction.addSharedElement(currentFragment.find<FabMenuFrameLayout>(R.id.fabMenuFrameLayout).mainShowFab, getString(R.string.fab_shared_name))
             }
             is BodyAddFragment -> {
                 transaction.addSharedElement(currentFragment.find(R.id.bodydataFab), getString(R.string.fab_shared_name))

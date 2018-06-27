@@ -2,7 +2,6 @@ package com.cuile.cuile.babytime.view
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Canvas
 import android.support.design.widget.BottomSheetDialog
 import android.util.AttributeSet
 import android.widget.Button
@@ -18,9 +17,9 @@ import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.commit
 import org.jetbrains.anko.defaultSharedPreferences
 import org.jetbrains.anko.find
-import org.jetbrains.anko.support.v4.act
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.properties.Delegates
 
 /**
  * Created by cuile on 18-6-27.
@@ -46,11 +45,16 @@ class TimerTextView : TextView {
         init(context, attrs)
     }
 
-    var hour = 0
-    var minute = 0
-    var second = 0
+    var hour: Int = 0
+    var minute: Int = 0
+    var second: Int = 0
 
-    var durationSec: Long = 0
+    var durationSec: Long by Delegates.observable(0L, { property, oldValue, newValue ->
+        if (newValue != oldValue) {
+            refreshHMSByDuration()
+            refreshShow()
+        }
+    })
 
 
     private var startTime: Long = Calendar.getInstance().timeInMillis / 1000
@@ -74,15 +78,14 @@ class TimerTextView : TextView {
         isPausing = context.defaultSharedPreferences.getBoolean(IS_PAUSING, false)
 
 
-        if(isRunning) {
-            startTime = context.defaultSharedPreferences.getLong(START_TIME, startTime)
-            durationSec = Calendar.getInstance().timeInMillis / 1000 - startTime
-        } else if (isPausing) {
-            durationSec = context.defaultSharedPreferences.getLong(OLD_DURATION, 0)
+        when {
+            isRunning -> {
+                startTime = context.defaultSharedPreferences.getLong(START_TIME, startTime)
+                durationSec = Calendar.getInstance().timeInMillis / 1000 - startTime
+            }
+            isPausing -> durationSec = context.defaultSharedPreferences.getLong(OLD_DURATION, 0)
+            else -> refreshShow()
         }
-
-        refreshHMSByDuration()
-        refreshShow()
 
         if (isRunning) start()
     }
@@ -96,11 +99,7 @@ class TimerTextView : TextView {
                     .subscribeOn(Schedulers.computation())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe {
-
                         durationSec += 1
-
-                        refreshHMSByDuration()
-                        refreshShow()
                     }
         }
     }
@@ -168,7 +167,6 @@ class TimerTextView : TextView {
             second = 0
 
             refreshDurationByHMS()
-            refreshShow()
 
             bottomSheetDialog.cancel()
         }
