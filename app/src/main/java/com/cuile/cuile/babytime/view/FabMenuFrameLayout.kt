@@ -1,18 +1,13 @@
 package com.cuile.cuile.babytime.view
 
 import android.content.Context
-import android.graphics.Canvas
 import android.support.design.widget.FloatingActionButton
 import android.util.AttributeSet
-import android.view.Gravity
-import android.view.View
+import android.view.MotionEvent
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.cuile.cuile.babytime.R
-import com.cuile.cuile.babytime.utils.fabView
-import com.cuile.cuile.babytime.vp.ShowMainFragment
-import kotlinx.android.synthetic.main.fragment_show_main.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.find
 
 class FabMenuFrameLayout : FrameLayout {
     constructor(context: Context): super(context)
@@ -22,10 +17,15 @@ class FabMenuFrameLayout : FrameLayout {
 
     private val fabItemList: MutableList<FloatingActionButton> = mutableListOf()
     private val fabItemLabelList: MutableList<TextView> = mutableListOf()
-    lateinit var mainShowFab: FloatingActionButton
+    private lateinit var mainShowFab: FloatingActionButton
     private var isOpening = false
 
     var fabMenuItemClicked: ((Int) -> Unit)? = null
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        if (!isOpening) return false
+        return super.onTouchEvent(event)
+    }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()

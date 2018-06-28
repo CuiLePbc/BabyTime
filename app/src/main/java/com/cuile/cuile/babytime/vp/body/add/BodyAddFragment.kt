@@ -15,6 +15,7 @@ import com.cuile.cuile.babytime.BaseFragment
 import com.cuile.cuile.babytime.R
 import com.cuile.cuile.babytime.model.db.BodyData
 import com.cuile.cuile.babytime.utils.PhotoUtil
+import com.cuile.cuile.babytime.utils.initToolbar
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.act
 import org.jetbrains.anko.support.v4.dip
@@ -63,28 +64,18 @@ class BodyAddFragment: BaseFragment(), BodyAddContract.View {
     }
 
     override fun initViews() {
+
+        bodydata_add_toolbar.initToolbar(R.string.bodydata_add, act)
+
         bodydataBabyImgContainer.setOnClickListener {
             fillPhotoDialog()
         }
         bodydataFab.setOnClickListener {
 
-            val height = bodydataBabyHeight.text.toString().toFloatOrNull()
-            val weight = bodydataBabyWeight.text.toString().toFloatOrNull()
-            val photo = if (presenter.imageName.isNullOrEmpty()) "" else PhotoUtil.getImageFullPath(this, presenter.imageName)
-            val date = bodydataTime.viewTime.time
-
-            if (height == null || weight == null) {
+            val bodyData = getBodyDataFromUI()
+            if (bodyData == null) {
                 toast("Please put in height and weight")
-                return@setOnClickListener
-            }
-            presenter.saveData(BodyData(
-                    name = "",
-                    height = height,
-                    weight = weight,
-                    photo = photo,
-                    date = date,
-                    other = ""
-            ))
+            } else presenter.saveData(bodyData)
         }
     }
 
@@ -149,6 +140,27 @@ class BodyAddFragment: BaseFragment(), BodyAddContract.View {
             presenter.requestCameraPhoto()
             bottomSheetDialog.cancel()
         }
+    }
+
+    private fun getBodyDataFromUI(): BodyData? {
+        val height = bodydataBabyHeight.text.toString().toFloatOrNull()
+        val weight = bodydataBabyWeight.text.toString().toFloatOrNull()
+        val photo = if (presenter.imageName.isNullOrEmpty()) "" else PhotoUtil.getImageFullPath(this, presenter.imageName)
+        val date = bodydataTime.viewTime.time
+
+        if (height == null || weight == null) {
+
+            return null
+        }
+
+        return BodyData(
+                name = "",
+                height = height,
+                weight = weight,
+                photo = photo,
+                date = date,
+                other = ""
+        )
     }
 
     override fun getLayout(): Int = R.layout.fragment_bodydata_add

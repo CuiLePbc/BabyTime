@@ -6,22 +6,8 @@
     android:layout_height="match_parent"
     tools:context="com.cuile.cuile.babytime.MainActivity">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/mainToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:theme="@style/AppTheme.ActionBarOverlay"
-            app:popupTheme="@style/AppTheme.PopupMenuOverlay"/>
-
-    </android.support.design.widget.AppBarLayout>
-
     <FrameLayout
         android:id="@+id/mainFragmentContainer"
-        android:layout_marginTop="?actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

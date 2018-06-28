@@ -1,8 +1,14 @@
 package com.cuile.cuile.babytime.utils
 
+import android.app.Activity
 import android.support.design.widget.FloatingActionButton
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.view.ViewManager
+import com.cuile.cuile.babytime.R
+import kotlinx.android.synthetic.main.fragment_bodydata_add.*
 import org.jetbrains.anko.custom.ankoView
+import org.jetbrains.anko.support.v4.act
 
 /**
  * Created by cuile on 18-6-27.
@@ -32,5 +38,8 @@ fun Long.sToHMS(): Array<Int> {
     return arrayOf(hour, minute, second)
 }
 
-fun ViewManager.fabView(init: android.support.design.widget.FloatingActionButton.() -> Unit) =
-        ankoView({FloatingActionButton(it)}, theme = 0) { init() }
+fun Toolbar.initToolbar(title: Int, activity: Activity) {
+    this.title = context.getString(title)
+    navigationIcon = resources.getDrawable(R.drawable.ic_arrow_back_white_24dp, null)
+    setNavigationOnClickListener { activity.onBackPressed() }
+}

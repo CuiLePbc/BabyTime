@@ -5,6 +5,7 @@ import com.cuile.cuile.babytime.BaseFragment
 import com.cuile.cuile.babytime.R
 import com.cuile.cuile.babytime.model.db.SleepData
 import com.cuile.cuile.babytime.utils.ValueUtils
+import com.cuile.cuile.babytime.utils.initToolbar
 import kotlinx.android.synthetic.main.fragment_sleep_add.*
 import org.jetbrains.anko.support.v4.act
 import java.util.*
@@ -32,6 +33,8 @@ class SleepAddFragment: BaseFragment(), SleepAddContract.View {
 
 
     override fun initViews() {
+        sleep_add_toolbar.initToolbar(R.string.sleep_add, act)
+
         sleepFab.setOnClickListener {
 
 

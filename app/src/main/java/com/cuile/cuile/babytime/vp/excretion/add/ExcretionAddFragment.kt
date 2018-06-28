@@ -6,6 +6,7 @@ import com.cuile.cuile.babytime.BaseFragment
 import com.cuile.cuile.babytime.R
 import com.cuile.cuile.babytime.model.db.ExcretionData
 import com.cuile.cuile.babytime.utils.ValueUtils
+import com.cuile.cuile.babytime.utils.initToolbar
 import kotlinx.android.synthetic.main.fragment_excretion_add.*
 import org.jetbrains.anko.support.v4.act
 import org.jetbrains.anko.support.v4.toast
@@ -32,6 +33,7 @@ class ExcretionAddFragment: BaseFragment(), ExcretionAddContract.View {
     }
 
     override fun initViews() {
+        excretion_add_toolbar.initToolbar(R.string.excretion_add, act)
 
         excretionWetHowMany.setSelection(1)
         excretionDryHowMany.setSelection(1)

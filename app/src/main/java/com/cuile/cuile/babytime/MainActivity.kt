@@ -30,18 +30,14 @@ class MainActivity : BaseActivity() {
     override fun getContentViewLayout(): Int = R.layout.activity_main
 
     override fun initViews() {
-        setSupportActionBar(mainToolbar)
         currentFragment = showMainFragment
         supportFragmentManager.beginTransaction().add(R.id.mainFragmentContainer, showMainFragment, showMainFragment.javaClass.name)
                 .commit()
-
-        mainToolbar.title = getString(R.string.show_main)
     }
 
     override fun onBackPressed() {
         if (currentFragment != showMainFragment) {
             changeToFragment(showMainFragment)
-            mainToolbar.title = getString(R.string.show_main)
         }
         else super.onBackPressed()
     }
@@ -53,19 +49,15 @@ class MainActivity : BaseActivity() {
                 when(id) {
                     R.id.fabMenuToBodyData -> {
                         changeToFragment(bodydataAddFragment)
-                        mainToolbar.title = getString(R.string.bodydata_add)
                     }
                     R.id.fabMenuToEatData -> {
                         changeToFragment(eatAddFragment)
-                        mainToolbar.title = getString(R.string.eat_add)
                     }
                     R.id.fabMenuToExcretionData -> {
                         changeToFragment(excretionAddFragment)
-                        mainToolbar.title = getString(R.string.excretion_add)
                     }
                     R.id.fabMenuToSleepData -> {
                         changeToFragment(sleepAddFragment)
-                        mainToolbar.title = getString(R.string.sleep_add)
                     }
                 }
             }

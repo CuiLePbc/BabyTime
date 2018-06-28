@@ -12,6 +12,7 @@ import com.cuile.cuile.babytime.BaseFragment
 import com.cuile.cuile.babytime.R
 import com.cuile.cuile.babytime.model.db.EatData
 import com.cuile.cuile.babytime.utils.ValueUtils
+import com.cuile.cuile.babytime.utils.initToolbar
 import com.cuile.cuile.babytime.view.TextDrawable
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_eat_add.*
@@ -66,6 +67,8 @@ class EatAddFragment: BaseFragment(), EatAddContract.View {
 
 
     override fun initViews() {
+
+        eat_add_toolbar.initToolbar(R.string.eat_add, act)
 
         milkTypeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             viewSwitch(checkedId)
