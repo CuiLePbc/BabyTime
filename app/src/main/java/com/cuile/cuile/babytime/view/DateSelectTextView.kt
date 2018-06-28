@@ -30,7 +30,25 @@ class DateSelectTextView: TextView {
 
     var mode = 0
 
-    var viewTime = Calendar.getInstance().time
+    var viewTime = Calendar.getInstance().time!!
+        @SuppressLint("SetTextI18n")
+        set(value) {
+            field = value
+
+            val calendar = Calendar.getInstance()
+            calendar.time = field
+            if (mode == 0) {
+                val year = calendar.get(Calendar.YEAR)
+                val month = calendar.get(Calendar.MONTH)
+                val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+                text = "${year}年${month + 1}月${dayOfMonth}日"
+
+            } else if (mode == 1) {
+                val hour = calendar.get(Calendar.HOUR_OF_DAY)
+                val minutes = calendar.get(Calendar.MINUTE)
+                text = "${hour.two()}:${minutes.two()}"
+            }
+        }
 
     @SuppressLint("SetTextI18n")
     private fun init(context: Context, attrs: AttributeSet) {

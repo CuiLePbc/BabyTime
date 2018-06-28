@@ -21,6 +21,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 
+@Suppress("unused", "UNUSED_PARAMETER")
 /**
  * Created by cuile on 18-6-27.
  *
@@ -45,16 +46,16 @@ class TimerTextView : TextView {
         init(context, attrs)
     }
 
-    var hour: Int = 0
-    var minute: Int = 0
-    var second: Int = 0
+    private var hour: Int = 0
+    private var minute: Int = 0
+    private var second: Int = 0
 
-    var durationSec: Long by Delegates.observable(0L, { property, oldValue, newValue ->
+    var durationSec: Long by Delegates.observable(0L) { _, oldValue, newValue ->
         if (newValue != oldValue) {
             refreshHMSByDuration()
             refreshShow()
         }
-    })
+    }
 
 
     private var startTime: Long = Calendar.getInstance().timeInMillis / 1000

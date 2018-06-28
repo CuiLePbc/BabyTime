@@ -13,8 +13,11 @@ import com.cuile.cuile.babytime.R
 import com.cuile.cuile.babytime.model.db.EatData
 import com.cuile.cuile.babytime.utils.ValueUtils
 import com.cuile.cuile.babytime.view.TextDrawable
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_eat_add.*
+import org.jetbrains.anko.commit
 import org.jetbrains.anko.support.v4.act
+import org.jetbrains.anko.support.v4.defaultSharedPreferences
 import java.util.*
 
 /**
@@ -42,12 +45,21 @@ class EatAddFragment: BaseFragment(), EatAddContract.View {
         super.onResume()
         eatDurationTV.resume()
         resumeStartOrPause()
+
+        if (eatDurationTV.isPausing || eatDurationTV.isRunning) {
+            val eatDataJson = defaultSharedPreferences.getString(EAT_DATA_KEY, "")
+            resumeUIFromEatData(Gson().fromJson(eatDataJson, EatData::class.java))
+        }
     }
 
     override fun onPause() {
         super.onPause()
         if (eatDurationTV.isRunning) {
             eatDurationTV.runningBackground()
+
+            defaultSharedPreferences.commit {
+                putString(EAT_DATA_KEY, Gson().toJson(getEatDataFromUI()))
+            }
         }
     }
 
@@ -163,7 +175,28 @@ class EatAddFragment: BaseFragment(), EatAddContract.View {
         eatDurationTV.stop()
     }
     private fun submit(){
+        presenter.saveData(getEatDataFromUI())
+    }
 
+    private fun resumeUIFromEatData(eatData: EatData) {
+
+        when(eatData.foodType) {
+            ValueUtils.EatValue.FOOD_TYPE_BREAST -> milkTypeRadioGroup.check(R.id.eatBreast)
+            ValueUtils.EatValue.FOOD_TYPE_DRIED -> milkTypeRadioGroup.check(R.id.eatDried)
+            ValueUtils.EatValue.FOOD_TYPE_OTHER -> milkTypeRadioGroup.check(R.id.eatOther)
+        }
+
+        otherFoodTV.text.clear()
+        otherFoodTV.text.append(eatData.extraFoodName)
+        eatmlNP.value = eatData.milkMl
+
+        eatNippleSwitch.isChecked = eatData.nippleSide == ValueUtils.EatValue.NIPPLE_RIGHT_SIDE
+
+        eatDateTV.viewTime = Date(eatData.time)
+        eatTimeTV.viewTime = Date(eatData.time)
+    }
+
+    private fun getEatDataFromUI(): EatData {
         val foodType = when(milkTypeRadioGroup.checkedRadioButtonId) {
             R.id.eatBreast -> ValueUtils.EatValue.FOOD_TYPE_BREAST
             R.id.eatDried -> ValueUtils.EatValue.FOOD_TYPE_DRIED
@@ -188,7 +221,7 @@ class EatAddFragment: BaseFragment(), EatAddContract.View {
 
         val duration = eatDurationTV.durationSec.toInt()
 
-        val eatData = EatData(
+        return EatData(
                 name = "",
                 foodType = foodType,
                 extraFoodName = otherFoodTV.text.toString(),
@@ -198,15 +231,14 @@ class EatAddFragment: BaseFragment(), EatAddContract.View {
                 duration = duration,
                 other = ""
         )
-
-        presenter.saveData(eatData)
-
     }
 
 
 
     companion object {
+        @Suppress("MemberVisibilityCanBePrivate")
         const val ARG_PARAM = "EatAddFragment_param_key"
+        const val EAT_DATA_KEY = "eatDataKey"
         fun getInstance(param: String = ""): EatAddFragment {
             val fragment = EatAddFragment()
             fragment.arguments = Bundle().apply { putString(ARG_PARAM, param) }

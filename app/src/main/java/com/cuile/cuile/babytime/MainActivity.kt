@@ -51,19 +51,19 @@ class MainActivity : BaseActivity() {
             Thread.sleep(200)
             uiThread {
                 when(id) {
-                    0 -> {
+                    R.id.fabMenuToBodyData -> {
                         changeToFragment(bodydataAddFragment)
                         mainToolbar.title = getString(R.string.bodydata_add)
                     }
-                    1 -> {
+                    R.id.fabMenuToEatData -> {
                         changeToFragment(eatAddFragment)
                         mainToolbar.title = getString(R.string.eat_add)
                     }
-                    2 -> {
+                    R.id.fabMenuToExcretionData -> {
                         changeToFragment(excretionAddFragment)
                         mainToolbar.title = getString(R.string.excretion_add)
                     }
-                    3 -> {
+                    R.id.fabMenuToSleepData -> {
                         changeToFragment(sleepAddFragment)
                         mainToolbar.title = getString(R.string.sleep_add)
                     }
@@ -90,7 +90,7 @@ class MainActivity : BaseActivity() {
     private fun addSharedElement(transaction: FragmentTransaction) {
         when(currentFragment) {
             is ShowMainFragment -> {
-                transaction.addSharedElement(currentFragment.find<FabMenuFrameLayout>(R.id.fabMenuFrameLayout).mainShowFab, getString(R.string.fab_shared_name))
+                transaction.addSharedElement(currentFragment.find(R.id.mainshowFab), getString(R.string.fab_shared_name))
             }
             is BodyAddFragment -> {
                 transaction.addSharedElement(currentFragment.find(R.id.bodydataFab), getString(R.string.fab_shared_name))

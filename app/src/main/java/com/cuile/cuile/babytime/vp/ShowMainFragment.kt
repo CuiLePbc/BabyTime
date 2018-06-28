@@ -3,8 +3,7 @@ package com.cuile.cuile.babytime.vp
 import android.os.Bundle
 import com.cuile.cuile.babytime.BaseFragment
 import com.cuile.cuile.babytime.R
-import com.cuile.cuile.babytime.R.id.*
-import kotlinx.android.synthetic.main.fragment_show_main.*
+import kotlinx.android.synthetic.main.layout_fab_menu.*
 
 /**
  * Created by cuile on 18-6-4.
@@ -26,7 +25,7 @@ class ShowMainFragment: BaseFragment() {
 
     override fun initViews() {
 
-        fabMenuFrameLayout.fabMenuItemClicked = {
+        fabMenuBgFrameLayout.fabMenuItemClicked = {
             if (fabMenuItemClickListener != null) {
                 fabMenuItemClickListener?.invoke(it)
             }
@@ -35,12 +34,8 @@ class ShowMainFragment: BaseFragment() {
 
     override fun onPause() {
         super.onPause()
-        fabMenuFrameLayout.closeFabMenu()
+        fabMenuBgFrameLayout.closeFabMenu()
     }
 
     override fun getLayout(): Int = R.layout.fragment_show_main
-
-    interface FabMenuItemClickListener {
-        fun fabMenuItemClicked(clickedId: Int)
-    }
 }

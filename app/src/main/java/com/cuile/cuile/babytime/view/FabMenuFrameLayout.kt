@@ -22,144 +22,34 @@ class FabMenuFrameLayout : FrameLayout {
 
     private val fabItemList: MutableList<FloatingActionButton> = mutableListOf()
     private val fabItemLabelList: MutableList<TextView> = mutableListOf()
-    var mainShowFab: FloatingActionButton = FloatingActionButton(context).apply {
-        id = View.generateViewId()
-        val myLayoutParams = FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
-        myLayoutParams.gravity = Gravity.END.and(Gravity.BOTTOM)
-        myLayoutParams.rightMargin = dip(16)
-        myLayoutParams.bottomMargin = dip(16)
-        layoutParams = myLayoutParams
-
-        setImageDrawable(context.getDrawable(R.drawable.ic_add_white_24dp))
-
-        transitionName = context.getString(R.string.fab_shared_name)
-
-        size = FloatingActionButton.SIZE_NORMAL
-        elevation = dip(8).toFloat()
-
-        setOnClickListener {
-            fabAnimation()
-        }
-    }
+    lateinit var mainShowFab: FloatingActionButton
     private var isOpening = false
 
     var fabMenuItemClicked: ((Int) -> Unit)? = null
 
-    companion object {
-        val menuItemLabelList = listOf(
-                R.string.body_data,
-                R.string.eat_data,
-                R.string.excretion_data,
-                R.string.sleep_data
-        )
-
-        val menuLabelIdList = listOf(
-                View.generateViewId(),
-                View.generateViewId(),
-                View.generateViewId(),
-                View.generateViewId()
-        )
-
-        val menuFabIdList = listOf(
-                View.generateViewId(),
-                View.generateViewId(),
-                View.generateViewId(),
-                View.generateViewId()
-        )
-
-        val menuFabDrawableIdList = listOf(
-                R.drawable.ic_add_white_24dp,
-                R.drawable.ic_add_white_24dp,
-                R.drawable.ic_add_white_24dp,
-                R.drawable.ic_add_white_24dp
-        )
-    }
-
-    override fun onDraw(canvas: Canvas?) {
-        super.onDraw(canvas)
-
-
-
-
-
-    }
-
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        for (i in 0 until menuItemLabelList.size) {
 
-            val t = textView(menuItemLabelList[i]) {
-                id = menuLabelIdList[i]
-                backgroundColorResource = R.color.material_scrim_color
-                textColor = android.R.color.white
-                setPadding(dip(2), 0, dip(2), 0)
+        fabItemLabelList.add(find(R.id.fabMenuToBodyDataLabel))
+        fabItemLabelList.add(find(R.id.fabMenuToEatDataLabel))
+        fabItemLabelList.add(find(R.id.fabMenuToExcretionDataLabel))
+        fabItemLabelList.add(find(R.id.fabMenuToSleepDataLabel))
 
-                val myLayoutParams = FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
-                myLayoutParams.width = LayoutParams.WRAP_CONTENT
-                myLayoutParams.height = LayoutParams.WRAP_CONTENT
-                myLayoutParams.gravity = Gravity.END.and(Gravity.BOTTOM)
-                myLayoutParams.rightMargin = dip(68)
-                myLayoutParams.bottomMargin = dip(144 + 64 * i)
-                layoutParams = myLayoutParams
+        fabItemList.add(find(R.id.fabMenuToBodyData))
+        fabItemList.add(find(R.id.fabMenuToEatData))
+        fabItemList.add(find(R.id.fabMenuToExcretionData))
+        fabItemList.add(find(R.id.fabMenuToSleepData))
 
-//                scaleX = 0f
-//                scaleY = 0f
-//                alpha = 0f
+        fabItemList.forEach {
+            it.setOnClickListener {
+                fabMenuItemClicked?.invoke(it.id)
             }
-            fabItemLabelList.add(t)
-
-
-            val f = fabView {
-                id = menuFabIdList[i]
-                val myLayoutParams = FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
-                myLayoutParams.width = LayoutParams.WRAP_CONTENT
-                myLayoutParams.height = LayoutParams.WRAP_CONTENT
-                myLayoutParams.gravity = Gravity.END.and(Gravity.BOTTOM)
-                myLayoutParams.rightMargin = dip(24)
-                myLayoutParams.bottomMargin = dip(104 + 64 * i)
-                layoutParams = myLayoutParams
-
-//                scaleX = 0f
-//                scaleY = 0f
-//                alpha = 0f
-//
-//                isClickable = false
-//                isFocusable = false
-
-                setImageDrawable(context.getDrawable(menuFabDrawableIdList[i]))
-
-                size = FloatingActionButton.SIZE_MINI
-                elevation = dip(8).toFloat()
-
-                if (fabMenuItemClicked != null){
-                    fabMenuItemClicked?.invoke(i)
-                }
-            }
-            fabItemList.add(f)
         }
 
+        mainShowFab = find(R.id.mainshowFab)
 
-        mainShowFab = fabView {
-            id = View.generateViewId()
-            val myLayoutParams = FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
-            myLayoutParams.width = LayoutParams.WRAP_CONTENT
-            myLayoutParams.height = LayoutParams.WRAP_CONTENT
-            myLayoutParams.gravity = Gravity.END.and(Gravity.BOTTOM)
-            myLayoutParams.rightMargin = dip(16)
-            myLayoutParams.bottomMargin = dip(16)
-            layoutParams = myLayoutParams
-
-            setImageDrawable(context.getDrawable(R.drawable.ic_add_white_24dp))
-
-            transitionName = context.getString(R.string.fab_shared_name)
-
-            size = FloatingActionButton.SIZE_NORMAL
-            elevation = dip(8).toFloat()
-
-            setOnClickListener {
-                fabAnimation()
-            }
-
+        mainShowFab.setOnClickListener {
+            fabAnimation()
         }
 
         setOnClickListener { if (isOpening) closeFabMenu() }
