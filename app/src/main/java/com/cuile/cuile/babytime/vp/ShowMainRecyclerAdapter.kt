@@ -39,39 +39,29 @@ class ShowMainRecyclerAdapter(var datas: List<ShowMainItemEntity> = listOf()) : 
     override fun getItemCount() = datas.size
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        if (position % 2 === 0) {
-            holder.rlContentWrapper.setBackgroundColor(
-                    ContextCompat.getColor(context, R.color.bg_color_1))
-        } else {
-            holder.rlContentWrapper.setBackgroundColor(
-                    ContextCompat.getColor(context, R.color.bg_color_2))
-        }
+        val itemEntity = datas[position]
+        holder.bind(itemEntity)
 
-        val stickyExampleModel = stickyExampleModels.get(position)
-        holder.tvName.setText(stickyExampleModel.name)
-        holder.tvGender.setText(stickyExampleModel.gender)
-        holder.tvProfession.setText(stickyExampleModel.profession)
-
-        if (position === 0) {
-            holder.tvStickyHeader.setVisibility(View.VISIBLE)
-            holder.tvStickyHeader.setText(stickyExampleModel.sticky)
-            holder.itemView.setTag(FIRST_STICKY_VIEW)
+        if (position == 0) {
+            holder.stickyTV.visibility = View.VISIBLE
+            holder.stickyTV.text = itemEntity.stickyName
+            holder.itemView.tag = FIRST_STICKY_VIEW
         } else {
-            if (!TextUtils.equals(stickyExampleModel.sticky, stickyExampleModels.get(position - 1).sticky)) {
-                holder.tvStickyHeader.setVisibility(View.VISIBLE)
-                holder.tvStickyHeader.setText(stickyExampleModel.sticky)
-                holder.itemView.setTag(HAS_STICKY_VIEW)
+            if (!TextUtils.equals(itemEntity.stickyName, datas[position - 1].stickyName)) {
+                holder.stickyTV.visibility = View.VISIBLE
+                holder.stickyTV.text = itemEntity.stickyName
+                holder.itemView.tag = HAS_STICKY_VIEW
             } else {
-                holder.tvStickyHeader.setVisibility(View.GONE)
-                holder.itemView.setTag(NONE_STICKY_VIEW)
+                holder.stickyTV.visibility = View.GONE
+                holder.itemView.tag = NONE_STICKY_VIEW
             }
         }
-        holder.itemView.contentDescription = stickyExampleModel.sticky
+        holder.itemView.contentDescription = itemEntity.stickyName
     }
 
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val stickyTV by lazy { itemView.find<TextView>(R.id.recyclerStickyTV) }
+        val stickyTV by lazy { itemView.find<TextView>(R.id.itemScrollHeadView) }
 
         val imageView by lazy { itemView.find<ImageView>(R.id.mainShowItemImg) }
         val titleTV by lazy { itemView.find<TextView>(R.id.mainShowItemTitle) }

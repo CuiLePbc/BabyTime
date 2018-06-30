@@ -1,13 +1,17 @@
 package com.cuile.cuile.babytime.vp
 
 import android.os.Bundle
+import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log.i
 import com.cuile.cuile.babytime.BaseFragment
 import com.cuile.cuile.babytime.R
+import com.cuile.cuile.babytime.model.ShowMainItemEntity
 import kotlinx.android.synthetic.main.fragment_show_main.*
 import kotlinx.android.synthetic.main.layout_fab_menu.*
-import kotlinx.android.synthetic.main.layout_recycler_sticky_header_view.*
+import org.jetbrains.anko.support.v4.dip
+import org.jetbrains.anko.support.v4.toast
 
 
 /**
@@ -23,6 +27,43 @@ class ShowMainFragment: BaseFragment() {
             fragment.fabMenuItemClickListener = fabMenuItemClickListener
             return fragment
         }
+
+        val DATAS = listOf<ShowMainItemEntity>(
+                ShowMainItemEntity(1, "", "sticky", "title",
+                        "content", "time", "duration"),
+                ShowMainItemEntity(1, "", "sticky", "title",
+                        "content", "time", "duration"),
+                ShowMainItemEntity(1, "", "sticky", "title",
+                        "content", "time", "duration"),
+                ShowMainItemEntity(1, "", "sticky", "title",
+                        "content", "time", "duration"),
+                ShowMainItemEntity(1, "", "sticky", "title",
+                        "content", "time", "duration"),
+                ShowMainItemEntity(1, "", "sticky", "title",
+                        "content", "time", "duration"),
+                ShowMainItemEntity(1, "", "sticky", "title",
+                        "content", "time", "duration"),
+                ShowMainItemEntity(1, "", "sticky", "title",
+                        "content", "time", "duration"),
+                ShowMainItemEntity(1, "", "sticky1", "title",
+                        "content", "time", "duration"),
+                ShowMainItemEntity(1, "", "sticky1", "title",
+                        "content", "time", "duration"),
+                ShowMainItemEntity(1, "", "sticky1", "title",
+                        "content", "time", "duration"),
+                ShowMainItemEntity(1, "", "sticky1", "title",
+                        "content", "time", "duration"),
+                ShowMainItemEntity(1, "", "sticky2", "title",
+                        "content", "time", "duration"),
+                ShowMainItemEntity(1, "", "sticky2", "title",
+                        "content", "time", "duration"),
+                ShowMainItemEntity(1, "", "sticky2", "title",
+                        "content", "time", "duration"),
+                ShowMainItemEntity(1, "", "sticky2", "title",
+                        "content", "time", "duration"),
+                ShowMainItemEntity(1, "", "sticky2", "title",
+                        "content", "time", "duration")
+        )
     }
 
     var fabMenuItemClickListener: ((Int) -> Unit)? = null
@@ -37,7 +78,16 @@ class ShowMainFragment: BaseFragment() {
             }
         }
 
-        val showMainRecyclerAdapter = ShowMainRecyclerAdapter()
+        show_main_appbar_layout.addOnOffsetChangedListener { _, verticalOffset ->
+            i("AppBarLayout", "vertical offset: $verticalOffset")
+//            showMainRecyclerView.setPadding(0, dip(220) + dip(verticalOffset),
+//                    0, 0)
+//            showMainScrollHeadView.setPadding(0, dip(220) + dip(verticalOffset),
+//                    0, 0)
+        }
+
+
+        val showMainRecyclerAdapter = ShowMainRecyclerAdapter(DATAS)
         showMainRecyclerView.adapter = showMainRecyclerAdapter
         showMainRecyclerView.layoutManager = LinearLayoutManager(context)
         showMainRecyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
@@ -49,7 +99,7 @@ class ShowMainFragment: BaseFragment() {
                 )
 
                 if (stickyInfoView != null && stickyInfoView.contentDescription != null) {
-                    recyclerStickyTV.text = stickyInfoView.contentDescription
+                    showMainScrollHeadView.text = stickyInfoView.contentDescription
                 }
 
                 val transInfoView = recyclerView?.findChildViewUnder(

@@ -5,6 +5,7 @@
     android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/show_main_appbar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -52,10 +53,19 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/showMainRecyclerView"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <include android:id="@+id/showMainScrollHeadView" layout="@layout/layout_recycler_sticky_header_view" />
-
+    <TextView android:id="@+id/showMainScrollHeadView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:paddingTop="220dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:text="标签"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.cuile.cuile.babytime.utils.TextViewBelowToolbarBehavior"/>
     <include layout="@layout/layout_fab_menu" />
 </android.support.design.widget.CoordinatorLayout>
