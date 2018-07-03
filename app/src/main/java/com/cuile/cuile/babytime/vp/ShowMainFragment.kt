@@ -59,6 +59,11 @@ class ShowMainFragment: BaseFragment(), ShowMainContract.View {
 
         initRecyclerview()
 
+
+    }
+
+    override fun onResume() {
+        super.onResume()
         presenter.requestRecentDaysDatas(3)
     }
 
