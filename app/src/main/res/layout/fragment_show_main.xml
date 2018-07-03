@@ -59,11 +59,12 @@
 
     <TextView android:id="@+id/showMainScrollHeadView"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:layout_marginTop="220dp"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
         android:paddingTop="2dp"
         android:paddingBottom="2dp"
-        android:background="@android:color/holo_orange_dark"
+        android:background="@android:color/darker_gray"
         android:text="标签"
         android:layout_width="match_parent"
         android:layout_height="32dp"

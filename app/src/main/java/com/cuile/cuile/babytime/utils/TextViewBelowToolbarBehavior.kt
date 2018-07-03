@@ -22,24 +22,18 @@ import org.jetbrains.anko.px2dip
 class TextViewBelowToolbarBehavior(context: Context?, attrs: AttributeSet?) : Behavior<TextView>(context, attrs) {
 
     override fun layoutDependsOn(parent: CoordinatorLayout?, child: TextView?, dependency: View?): Boolean {
+
         return dependency is AppBarLayout
     }
 
+
     override fun onDependentViewChanged(parent: CoordinatorLayout?, child: TextView?, dependency: View?): Boolean {
 
-        val context = child?.context
-        if (child?.top!! >= context?.dip(56)!!) {
-            child.top = dependency?.bottom!!
-            child.bottom = dependency.bottom - context.dip(32)
-        } else {
-            child.top = context.dip(56)
-            child.bottom = context.dip(56) - context.dip(32)
-        }
+        val marginTop = dependency?.bottom!!
 
-        Log.i("onDependentViewChanged", "dependency:$dependency, dependencybottom:${dependency?.bottom}")
+        child?.layout(0, marginTop, child.width, child.height + marginTop)
 
-
-        return false
+        return true
     }
 
 

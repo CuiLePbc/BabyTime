@@ -229,9 +229,10 @@ class EatAddFragment: BaseFragment(), EatAddContract.View {
                 foodType = foodType,
                 extraFoodName = otherFoodTV.text.toString(),
                 milkMl = eatmlNP.value,
+                eatMotherAmount = arrayOf(eatMotherAmount.progress),
                 nippleSide = nippleSide,
                 time = resultTimeInLong,
-                duration = duration,
+                duration = arrayOf(duration),
                 other = ""
         )
     }

@@ -1,6 +1,7 @@
 package com.cuile.cuile.babytime.vp
 
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,24 +11,29 @@ import com.bumptech.glide.Glide
 import com.cuile.cuile.babytime.R
 import com.cuile.cuile.babytime.model.ShowMainItemEntity
 import org.jetbrains.anko.find
-import android.support.v4.view.MenuItemCompat.setContentDescription
-import android.support.design.widget.CoordinatorLayout.Behavior.setTag
-import android.text.TextUtils
-import android.R.attr.name
-import android.support.v4.content.ContextCompat
-
 
 
 /**
  * Created by cuile on 18-6-29.
  *
  */
-class ShowMainRecyclerAdapter(var datas: List<ShowMainItemEntity> = listOf()) : RecyclerView.Adapter<ShowMainRecyclerAdapter.MyViewHolder>() {
+class ShowMainRecyclerAdapter(var datas: MutableList<ShowMainItemEntity> = mutableListOf()) : RecyclerView.Adapter<ShowMainRecyclerAdapter.MyViewHolder>() {
 
     companion object {
         const val FIRST_STICKY_VIEW = 1
         const val HAS_STICKY_VIEW = 2
         const val NONE_STICKY_VIEW = 3
+    }
+
+    fun refreshDatas(datas: List<ShowMainItemEntity>) {
+        this.datas.clear()
+        this.datas.addAll(datas)
+        notifyDataSetChanged()
+    }
+
+    fun addDatas(datas: List<ShowMainItemEntity>) {
+        this.datas.addAll(datas)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

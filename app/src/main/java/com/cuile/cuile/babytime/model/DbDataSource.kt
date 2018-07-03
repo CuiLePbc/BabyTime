@@ -9,6 +9,22 @@ import org.jetbrains.anko.db.select
 
 @Suppress("unused")
 class DbDataSource (private val babyTimeDbHelper: BabyTimeDbHelper = BabyTimeDbHelper(), private val babyTimeDbDataMapper: BabyTimeDbDataMapper = BabyTimeDbDataMapper()) : DataSourceInterface {
+    override fun requestDatasByTimeRange(from: Long, to: Long): List<ShowMainItemEntity> = babyTimeDbHelper.use {
+        val bodyDatas = requestBodyDataByDateRange(from, to)
+        val eatDatas = requestEatDataByTimeRange(from, to)
+        val excretionDatas = requestExcretionDataByTimeRange(from, to)
+        val sleepDatas = requestSleepDataByTimeRange(from, to)
+
+        val showMainList = mutableListOf<ShowMainItemEntity>()
+
+        showMainList.addAll(babyTimeDbDataMapper.convertToShowMainItemEntityList(bodyDatas))
+        showMainList.addAll(babyTimeDbDataMapper.convertToShowMainItemEntityList(eatDatas))
+        showMainList.addAll(babyTimeDbDataMapper.convertToShowMainItemEntityList(excretionDatas))
+        showMainList.addAll(babyTimeDbDataMapper.convertToShowMainItemEntityList(sleepDatas))
+
+        showMainList.sortedByDescending { it.time }
+        showMainList
+    }
 
     override fun requestBodyDataByDateRange(from: Long, to: Long) = babyTimeDbHelper.use {
         val bodyDataRequest = "${BodyDataTable.DATE} >= ? and ${BodyDataTable.DATE} <= ?"

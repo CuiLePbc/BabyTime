@@ -33,4 +33,6 @@ interface DataSourceInterface {
 
     fun clearAllDatas()
 
+    fun requestDatasByTimeRange(from: Long, to: Long): List<ShowMainItemEntity>
+
 }

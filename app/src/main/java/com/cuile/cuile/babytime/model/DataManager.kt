@@ -34,4 +34,6 @@ class DataManager(private val dataSourceInterface: DataSourceInterface) {
 
     fun deleteAllDatas() = dataSourceInterface.clearAllDatas()
 
+    fun getDatasByTimeRange(from: Long, to: Long) = dataSourceInterface.requestDatasByTimeRange(from, to)
+
 }
