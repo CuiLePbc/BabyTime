@@ -5,6 +5,7 @@ import android.content.Context
 import android.support.design.widget.BottomSheetDialog
 import android.util.AttributeSet
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.NumberPicker
 import android.widget.TextView
 import com.cuile.cuile.babytime.R
@@ -14,6 +15,7 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.fragment_eat_add.*
 import org.jetbrains.anko.commit
 import org.jetbrains.anko.defaultSharedPreferences
 import org.jetbrains.anko.find
@@ -27,6 +29,18 @@ import kotlin.properties.Delegates
  *
  */
 class TimerTextView : TextView {
+
+    private var imgBtn: ImageButton? = null
+    fun attachToImageButton(imageButton: ImageButton) {
+        this.imgBtn = imageButton
+        imgBtn?.setOnClickListener {
+            if (isRunning) {
+                pause()
+            } else {
+                start()
+            }
+        }
+    }
 
     companion object {
         private const val IS_RUNNING = "isRunning"
@@ -60,8 +74,18 @@ class TimerTextView : TextView {
 
     private var startTime: Long = Calendar.getInstance().timeInMillis / 1000
 
-    var isRunning = false
+    var isRunning: Boolean by Delegates.observable(false){_, oldValue, newValue ->
+        if (imgBtn != null && oldValue != newValue) {
+            if (newValue) {
+                imgBtn?.setImageDrawable(resources.getDrawable(android.R.drawable.ic_media_pause, null))
+            } else {
+                imgBtn?.setImageDrawable(resources.getDrawable(android.R.drawable.ic_media_play, null))
+            }
+        }
+    }
+
     var isPausing = false
+
     private var disposable: Disposable? = null
 
     @SuppressLint("CheckResult")

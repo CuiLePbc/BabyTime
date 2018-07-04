@@ -10,4 +10,5 @@ data class ShowMainItemEntity(val id: Long,
                               val title: String,
                               val content: String,
                               val time: String,
-                              val duration: String)
+                              val duration: String,
+                              val timeInMillions: Long)

@@ -88,7 +88,7 @@ class MainActivity : BaseActivity() {
                 transaction.addSharedElement(currentFragment.find(R.id.bodydataFab), getString(R.string.fab_shared_name))
             }
             is EatAddFragment -> {
-                transaction.addSharedElement(currentFragment.find(R.id.eatFab_stop_or_submit), getString(R.string.fab_shared_name))
+                transaction.addSharedElement(currentFragment.find(R.id.eatDataFab), getString(R.string.fab_shared_name))
             }
             is ExcretionAddFragment -> {
                 transaction.addSharedElement(currentFragment.find(R.id.excretionFab), getString(R.string.fab_shared_name))

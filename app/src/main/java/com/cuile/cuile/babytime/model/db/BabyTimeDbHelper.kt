@@ -4,7 +4,7 @@ import android.database.sqlite.SQLiteDatabase
 import com.cuile.cuile.babytime.MyApplication
 import org.jetbrains.anko.db.*
 
-class BabyTimeDbHelper: ManagedSQLiteOpenHelper(MyApplication.instance.applicationContext, DB_NAME, null, DB_VERSION) {
+class BabyTimeDbHelper private constructor(): ManagedSQLiteOpenHelper(MyApplication.instance.applicationContext, DB_NAME, null, DB_VERSION) {
 
     companion object {
         const val DB_NAME = "babytime.db"
@@ -22,15 +22,17 @@ class BabyTimeDbHelper: ManagedSQLiteOpenHelper(MyApplication.instance.applicati
                 BodyDataTable.DATE to INTEGER,
                 BodyDataTable.OTHER to TEXT)
 
+
         db?.createTable(EatDataTable.TABLE, true,
                 EatDataTable.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
                 EatDataTable.NAME to TEXT,
                 EatDataTable.FOOD_TYPE to INTEGER,
                 EatDataTable.EXTRA_FOOD_NAME to TEXT,
-                EatDataTable.MULK_ML to INTEGER,
-                EatDataTable.NIPPLE_SIDE to INTEGER,
+                EatDataTable.AMOUNT to INTEGER,
+                EatDataTable.AMOUNT_R to INTEGER,
                 EatDataTable.TIME to INTEGER,
                 EatDataTable.DURATION to INTEGER,
+                EatDataTable.DURATION_R to INTEGER,
                 EatDataTable.OTHER to TEXT)
 
         db?.createTable(ExcretionDataTable.TABLE, true,

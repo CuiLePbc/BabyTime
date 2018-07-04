@@ -197,15 +197,15 @@
 
     </android.support.v4.widget.NestedScrollView>
 
-    <android.support.design.widget.FloatingActionButton
+    <Button
         android:id="@+id/excretionFab"
-        android:layout_gravity="center_horizontal|bottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:elevation="8dp"
-        app:pressedTranslationZ="12dp"
+        android:text="@string/sure_to_add"
+        android:layout_width="100dp"
+        android:layout_height="56dp"
         android:layout_margin="@dimen/fab_margin"
+        android:layout_gravity="center_horizontal|bottom"
         android:transitionName="@string/fab_shared_name"
-        android:backgroundTint="@android:color/holo_orange_light"
-        android:src="@android:drawable/ic_menu_save"/>
+        android:elevation="8dp"
+        android:background="@drawable/circle_btn_bg_light_orange"/>
+
 </android.support.design.widget.CoordinatorLayout>

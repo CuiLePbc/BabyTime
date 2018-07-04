@@ -1,11 +1,6 @@
 package com.cuile.cuile.babytime.vp.eat.add
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ValueAnimator
 import android.os.Bundle
-import android.support.v4.view.animation.FastOutSlowInInterpolator
-import android.text.Layout
 import android.view.View
 import android.widget.NumberPicker
 import com.cuile.cuile.babytime.BaseFragment
@@ -13,9 +8,9 @@ import com.cuile.cuile.babytime.R
 import com.cuile.cuile.babytime.model.db.EatData
 import com.cuile.cuile.babytime.utils.ValueUtils
 import com.cuile.cuile.babytime.utils.initToolbar
-import com.cuile.cuile.babytime.view.TextDrawable
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_eat_add.*
+import kotlinx.android.synthetic.main.layout_eat_mother_milk.*
 import org.jetbrains.anko.commit
 import org.jetbrains.anko.support.v4.act
 import org.jetbrains.anko.support.v4.defaultSharedPreferences
@@ -44,20 +39,35 @@ class EatAddFragment: BaseFragment(), EatAddContract.View {
 
     override fun onResume() {
         super.onResume()
-        eatDurationTV.resume()
-        resumeStartOrPause()
+        eatLeftDurationTV.resume()
+        eatRightDurationTV.resume()
+        eatDriedDurationTV.resume()
 
-        if (eatDurationTV.isPausing || eatDurationTV.isRunning) {
+
+        if (eatLeftDurationTV.isPausing || eatLeftDurationTV.isRunning
+                || eatRightDurationTV.isPausing || eatRightDurationTV.isRunning
+                || eatDriedDurationTV.isPausing || eatDriedDurationTV.isRunning) {
             val eatDataJson = defaultSharedPreferences.getString(EAT_DATA_KEY, "")
-            resumeUIFromEatData(Gson().fromJson(eatDataJson, EatData::class.java))
+            if (eatDataJson.isNotBlank())
+                resumeUIFromEatData(Gson().fromJson(eatDataJson, EatData::class.java))
         }
     }
 
     override fun onPause() {
         super.onPause()
-        if (eatDurationTV.isRunning) {
-            eatDurationTV.runningBackground()
+        if (eatLeftDurationTV.isRunning) {
+            eatLeftDurationTV.runningBackground()
+        }
 
+        if (eatRightDurationTV.isRunning) {
+            eatRightDurationTV.runningBackground()
+        }
+
+        if (eatDriedDurationTV.isRunning) {
+            eatDriedDurationTV.runningBackground()
+        }
+
+        if (eatLeftDurationTV.isPausing || eatLeftDurationTV.isRunning || eatRightDurationTV.isPausing || eatRightDurationTV.isRunning) {
             defaultSharedPreferences.commit {
                 putString(EAT_DATA_KEY, Gson().toJson(getEatDataFromUI()))
             }
@@ -72,15 +82,14 @@ class EatAddFragment: BaseFragment(), EatAddContract.View {
 
         milkTypeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             viewSwitch(checkedId)
+            eatLeftDurationTV.stop()
+            eatRightDurationTV.stop()
+            eatDriedDurationTV.stop()
         }
 
-        eatFab_start_or_pause.setOnClickListener {
-            switchStartOrPause()
-        }
-
-        eatFab_stop_or_submit.setOnClickListener {
-            clickStopOrSubmit()
-        }
+        eatLeftDurationTV.attachToImageButton(eatLeftDurationImgBtn)
+        eatRightDurationTV.attachToImageButton(eatRightDurationImgBtn)
+        eatDriedDurationTV.attachToImageButton(eatDriedDurationImgBtn)
 
         eatmlNP.value = 50
         eatmlNP.minValue = 0
@@ -89,7 +98,10 @@ class EatAddFragment: BaseFragment(), EatAddContract.View {
         eatmlNP.wrapSelectorWheel = false
         eatmlNP.setFormatter { "${it * 5}" }
 
-        eatMotherAmount.max = 5
+        eatAmountLeftSeekBar.max = 4
+        eatAmountRightSeekBar.max = 4
+
+        eatDataFab.setOnClickListener { submit() }
     }
 
     private fun viewSwitch(checkedId: Int) {
@@ -97,87 +109,25 @@ class EatAddFragment: BaseFragment(), EatAddContract.View {
             R.id.eatBreast -> {
                 otherFoodLayout.visibility = View.GONE
                 eatMlLayout.visibility = View.GONE
-                eatMothreLayout.visibility = View.VISIBLE
+                eatMotherMilkLayout.visibility = View.VISIBLE
             }
             R.id.eatDried -> {
                 otherFoodLayout.visibility = View.GONE
                 eatMlLayout.visibility = View.VISIBLE
-                eatMothreLayout.visibility = View.GONE
+                eatMotherMilkLayout.visibility = View.GONE
             }
             R.id.eatOther -> {
                 otherFoodLayout.visibility = View.VISIBLE
                 eatMlLayout.visibility = View.VISIBLE
-                eatMothreLayout.visibility = View.GONE
+                eatMotherMilkLayout.visibility = View.GONE
             }
         }
     }
 
-    private fun clickStopOrSubmit(){
-        val width = eatFab_stop_or_submit.layoutParams.width
-
-        val ani = ValueAnimator.ofFloat(width.toFloat(), width + 410f)
-                .apply {
-                    duration = 500
-                    interpolator = FastOutSlowInInterpolator()
-                    addUpdateListener {
-                        val value = it.animatedValue as Float
-                        eatFab_stop_or_submit.layoutParams.width = value.toInt()
-                        eatFab_stop_or_submit.requestLayout()
-                    }
-                    addListener(object: AnimatorListenerAdapter(){
-                        override fun onAnimationStart(animation: Animator?) {
-                            super.onAnimationStart(animation)
-                            val textDrawable = TextDrawable(context!!).apply {
-                                text = getString(R.string.sure_to_add)
-                                textAlign = Layout.Alignment.ALIGN_CENTER
-                            }
-                            eatFab_stop_or_submit.setImageDrawable(textDrawable)
-                        }
-
-                        override fun onAnimationEnd(animation: Animator?) {
-                            super.onAnimationEnd(animation)
-                            eatFab_stop_or_submit
-                        }
-                    })
-                }
-
-        if (!eatDurationTV.isRunning && !eatDurationTV.isPausing) {
-            submit()
-        } else {
-            ani.start()
-            stop()
-        }
-    }
-
-    private fun resumeStartOrPause() {
-        if (!eatDurationTV.isRunning) {
-            eatFab_start_or_pause.setImageDrawable(resources.getDrawable(android.R.drawable.ic_media_play, null))
-        } else {
-            eatFab_start_or_pause.setImageDrawable(resources.getDrawable(android.R.drawable.ic_media_pause, null))
-
-        }
-    }
-
-    private fun switchStartOrPause() {
-        if (eatDurationTV.isRunning) {
-            eatFab_start_or_pause.setImageDrawable(resources.getDrawable(android.R.drawable.ic_media_play, null))
-            pause()
-        } else {
-            eatFab_start_or_pause.setImageDrawable(resources.getDrawable(android.R.drawable.ic_media_pause, null))
-            play()
-        }
-    }
-
-    private fun play(){
-        eatDurationTV.start()
-    }
-    private fun pause(){
-        eatDurationTV.pause()
-    }
-    private fun stop(){
-        eatDurationTV.stop()
-    }
     private fun submit(){
+        eatRightDurationTV.stop()
+        eatLeftDurationTV.stop()
+        eatDriedDurationTV.stop()
         presenter.saveData(getEatDataFromUI())
     }
 
@@ -191,9 +141,10 @@ class EatAddFragment: BaseFragment(), EatAddContract.View {
 
         otherFoodTV.text.clear()
         otherFoodTV.text.append(eatData.extraFoodName)
-        eatmlNP.value = eatData.milkMl
+        eatmlNP.value = eatData.amount
 
-        eatNippleSwitch.isChecked = eatData.nippleSide == ValueUtils.EatValue.NIPPLE_RIGHT_SIDE
+        eatAmountLeftSeekBar.progress = eatData.amount
+        eatAmountRightSeekBar.progress = eatData.amountR
 
         eatDateTV.viewTime = Date(eatData.time)
         eatTimeTV.viewTime = Date(eatData.time)
@@ -207,12 +158,9 @@ class EatAddFragment: BaseFragment(), EatAddContract.View {
             else -> -1
         }
 
-        val nippleSide =
-                if (eatNippleSwitch.isChecked) ValueUtils.EatValue.NIPPLE_RIGHT_SIDE
-                else ValueUtils.EatValue.NIPPLE_LEFT_SIDE
-
         val date = Calendar.getInstance().apply { time = eatDateTV.viewTime }
         val time = Calendar.getInstance().apply { time = eatTimeTV.viewTime }
+
         val resultTimeInLong = Calendar.getInstance().apply {
             set(date.get(Calendar.YEAR),
                     date.get(Calendar.MONTH),
@@ -221,20 +169,26 @@ class EatAddFragment: BaseFragment(), EatAddContract.View {
                     time.get(Calendar.MINUTE))
         }.timeInMillis
 
+        val amount =
+                if (foodType == ValueUtils.EatValue.FOOD_TYPE_BREAST) eatAmountLeftSeekBar.progress
+                else eatmlNP.value
 
-        val duration = eatDurationTV.durationSec.toInt()
+
+        val duration =
+                if (foodType == ValueUtils.EatValue.FOOD_TYPE_BREAST) eatLeftDurationTV.durationSec.toInt()
+                else eatDriedDurationTV.durationSec.toInt()
+        val durationR = eatRightDurationTV.durationSec.toInt()
 
         return EatData(
-                name = "",
-                foodType = foodType,
-                extraFoodName = otherFoodTV.text.toString(),
-                milkMl = eatmlNP.value,
-                eatMotherAmount = arrayOf(eatMotherAmount.progress),
-                nippleSide = nippleSide,
-                time = resultTimeInLong,
-                duration = arrayOf(duration),
-                other = ""
-        )
+                "",
+                foodType,
+                otherFoodTV.text.toString(),
+                amount,
+                eatAmountRightSeekBar.progress,
+                resultTimeInLong,
+                duration,
+                durationR,
+                "")
     }
 
 

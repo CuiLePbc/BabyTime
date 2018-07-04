@@ -16,7 +16,7 @@ class ShowMainPresenter(private val view: ShowMainContract.View) : ShowMainContr
         view.showProgress()
 
         val nowTime = Calendar.getInstance().timeInMillis
-        val fromTime = nowTime - days * 24 * 60 * 60 * 1000    // 进几天数据
+        val fromTime = nowTime - days * 24 * 60 * 60 * 1000    // 近几天数据
         val datas = dataManager.getDatasByTimeRange(fromTime, nowTime)
 
         view.stopProgress()

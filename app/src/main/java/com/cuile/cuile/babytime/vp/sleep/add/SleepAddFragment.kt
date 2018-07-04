@@ -57,10 +57,12 @@ class SleepAddFragment: BaseFragment(), SleepAddContract.View {
                 else -> -1
             }
 
+            val durationHour = sleepLongET.text.toString().toFloat()
+
             val sleepData = SleepData(
                     name = "",
                     time = resultTimeInLong,
-                    duration = sleepLongET.text.toString().toInt(),
+                    duration = (durationHour * 60 * 60).toInt(),
                     quality = qualityInt,
                     other = ""
             )

@@ -12,15 +12,17 @@ object BodyDataTable {
 }
 
 object EatDataTable {
+
     const val TABLE = "EatData"
     const val ID = "_id"
     const val NAME = "name"
     const val FOOD_TYPE = "foodType"
     const val EXTRA_FOOD_NAME = "extraFoodName"
-    const val MULK_ML = "milkMl"
-    const val NIPPLE_SIDE = "nippleSide"
+    const val AMOUNT = "amount"
+    const val AMOUNT_R = "amountR"
     const val TIME = "time"
     const val DURATION = "duration"
+    const val DURATION_R = "durationR"
     const val OTHER = "other"
 }
 

@@ -91,60 +91,60 @@
                 android:id="@+id/eatMlLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:visibility="gone"
                 android:layout_marginTop="6dp"
-                android:orientation="horizontal">
-                <NumberPicker
-                    android:id="@+id/eatmlNP"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <NumberPicker
+                        android:id="@+id/eatmlNP"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:text="毫升"
+                        android:layout_marginStart="8dp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
                 <TextView
-                    android:text="ML"
-                    android:layout_marginStart="8dp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:layout_marginTop="16dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="@string/how_long"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <ImageButton
+                        android:id="@+id/eatDriedDurationImgBtn"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="@drawable/circle_btn_bg_light_green"
+                        android:elevation="8dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:src="@android:drawable/ic_media_play" />
+                    <com.cuile.cuile.babytime.view.TimerTextView
+                        android:id="@+id/eatDriedDurationTV"
+                        android:layout_marginStart="8dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/eatMothreLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginTop="6dp"
-                android:orientation="horizontal">
-
-                <Switch
-                    android:id="@+id/eatNippleSwitch"
-                    android:textOn="@string/right_nipple"
-                    android:textOff="@string/left_nipple"
-                    android:showText="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:switchTextAppearance="@style/SwitchThemeNapple"
-                    android:thumb="@drawable/switch_custom_thumb_selector"
-                    android:track="@drawable/switch_custom_track_selector"/>
-
-                <TextView
-                    android:layout_marginStart="48dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/less"/>
-                <android.support.v7.widget.AppCompatSeekBar
-                    android:id="@+id/eatMotherAmount"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/more"/>
-
-            </LinearLayout>
+            <include layout="@layout/layout_eat_mother_milk"
+                android:id="@+id/eatMotherMilkLayout"/>
 
             <TextView
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:layout_marginTop="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/time"/>
@@ -168,47 +168,20 @@
                     app:mode="time"/>
             </LinearLayout>
 
-            <TextView
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:layout_marginTop="16dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/how_long"/>
-
-            <com.cuile.cuile.babytime.view.TimerTextView
-                android:id="@+id/eatDurationTV"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:layout_marginTop="6dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
 
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
 
-        <ImageButton
-            android:id="@+id/eatFab_start_or_pause"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginBottom="@dimen/fab_margin"
-            android:layout_marginStart="120dp"
-            android:layout_gravity="bottom|start"
-            android:elevation="8dp"
-            android:src="@android:drawable/ic_media_play"
-            android:background="@drawable/circle_btn_bg_light_green"/>
-
-        <ImageButton
-            android:id="@+id/eatFab_stop_or_submit"
-            android:background="@drawable/circle_btn_bg_light_orange"
-            android:layout_marginBottom="@dimen/fab_margin"
-            android:layout_marginEnd="120dp"
-            android:layout_gravity="bottom|end"
-            android:elevation="8dp"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:transitionName="@string/fab_shared_name"
-            android:src="@drawable/ic_stop_white_24dp"/>
+    <Button
+        android:id="@+id/eatDataFab"
+        android:text="@string/sure_to_add"
+        android:layout_width="100dp"
+        android:layout_height="56dp"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_gravity="center_horizontal|bottom"
+        android:transitionName="@string/fab_shared_name"
+        android:elevation="8dp"
+        android:background="@drawable/circle_btn_bg_light_orange"/>
 
 </android.support.design.widget.CoordinatorLayout>

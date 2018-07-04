@@ -8,7 +8,7 @@ import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
 
 @Suppress("unused")
-class DbDataSource (private val babyTimeDbHelper: BabyTimeDbHelper = BabyTimeDbHelper(), private val babyTimeDbDataMapper: BabyTimeDbDataMapper = BabyTimeDbDataMapper()) : DataSourceInterface {
+class DbDataSource (private val babyTimeDbHelper: BabyTimeDbHelper = BabyTimeDbHelper.INSTANCE, private val babyTimeDbDataMapper: BabyTimeDbDataMapper = BabyTimeDbDataMapper()) : DataSourceInterface {
     override fun requestDatasByTimeRange(from: Long, to: Long): List<ShowMainItemEntity> = babyTimeDbHelper.use {
         val bodyDatas = requestBodyDataByDateRange(from, to)
         val eatDatas = requestEatDataByTimeRange(from, to)
@@ -22,8 +22,7 @@ class DbDataSource (private val babyTimeDbHelper: BabyTimeDbHelper = BabyTimeDbH
         showMainList.addAll(babyTimeDbDataMapper.convertToShowMainItemEntityList(excretionDatas))
         showMainList.addAll(babyTimeDbDataMapper.convertToShowMainItemEntityList(sleepDatas))
 
-        showMainList.sortedByDescending { it.time }
-        showMainList
+        showMainList.sortedByDescending { it.timeInMillions }
     }
 
     override fun requestBodyDataByDateRange(from: Long, to: Long) = babyTimeDbHelper.use {

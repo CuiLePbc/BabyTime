@@ -26,20 +26,20 @@ class EatData(val map: MutableMap<String, Any?>) {
             name: String,
             foodType: Int,
             extraFoodName: String,
-            milkMl: Int,
-            eatMotherAmount: Array<Int>,
-            nippleSide: Int,
+            amount: Int,
+            amountR: Int,
             time: Long,
-            duration: Array<Int>,
+            duration: Int,
+            durationR: Int,
             other: String): this(HashMap()) {
         this.name = name
         this.foodType = foodType
         this.extraFoodName = extraFoodName
-        this.milkMl = milkMl
-        this.eatMotherAmount = eatMotherAmount
-        this.nippleSide = nippleSide
+        this.amount = amount
+        this.amountR = amountR
         this.time = time
         this.duration = duration
+        this.durationR = durationR
         this.other = other
     }
 
@@ -47,15 +47,11 @@ class EatData(val map: MutableMap<String, Any?>) {
     var name: String by map
     var foodType: Int by map
     var extraFoodName: String by map
-    var milkMl: Int by map
-
-    /** index 0 is left， 1 is right */
-    var eatMotherAmount: Array<Int> by map
-    var nippleSide: Int by map
+    var amount: Int by map
+    var amountR: Int by map
     var time: Long by map
-
-    /** second if is mother`s 0 is left and 1 is right */
-    var duration: Array<Int> by map
+    var duration: Int by map
+    var durationR: Int by map
     var other: String by map
 }
 
