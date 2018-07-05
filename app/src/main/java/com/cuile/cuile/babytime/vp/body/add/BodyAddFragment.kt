@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.design.widget.BottomSheetDialog
+import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import com.bumptech.glide.Glide
 import com.cuile.cuile.babytime.BaseFragment
@@ -66,6 +67,7 @@ class BodyAddFragment: BaseFragment(), BodyAddContract.View {
     override fun initViews() {
 
         bodydata_add_toolbar.initToolbar(R.string.bodydata_add, act)
+
 
         bodydataBabyImgContainer.setOnClickListener {
             fillPhotoDialog()

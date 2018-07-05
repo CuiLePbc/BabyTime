@@ -39,6 +39,7 @@ fun Long.sToHMS(): Array<Int> {
 }
 
 fun Toolbar.initToolbar(title: Int, activity: Activity) {
+    (activity as AppCompatActivity).setSupportActionBar(this)
     this.title = context.getString(title)
     navigationIcon = resources.getDrawable(R.drawable.ic_arrow_back_white_24dp, null)
     setNavigationOnClickListener { activity.onBackPressed() }

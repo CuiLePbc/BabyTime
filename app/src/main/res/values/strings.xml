@@ -64,6 +64,8 @@
     <string name="baby_name">宝宝名字</string>
     <string name="right_side">右侧</string>
     <string name="left_side">左侧</string>
+    <string name="close_drawer">closeDrawerLayout</string>
+    <string name="open_drawer">openDrawerLayout</string>
 
     <string-array name="baby_excretion_type_array">
         <item>@string/baby_excretion_type_normal</item>

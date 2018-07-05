@@ -3,6 +3,7 @@ package com.cuile.cuile.babytime
 import android.support.transition.Fade
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
+import android.view.WindowManager
 import com.cuile.cuile.babytime.vp.body.add.BodyAddFragment
 import com.cuile.cuile.babytime.vp.eat.add.EatAddFragment
 import com.cuile.cuile.babytime.vp.excretion.add.ExcretionAddFragment
@@ -30,9 +31,15 @@ class MainActivity : BaseActivity() {
     override fun getContentViewLayout(): Int = R.layout.activity_main
 
     override fun initViews() {
+
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+
         currentFragment = showMainFragment
         supportFragmentManager.beginTransaction().add(R.id.mainFragmentContainer, showMainFragment, showMainFragment.javaClass.name)
                 .commit()
+
+
+
     }
 
     override fun onBackPressed() {

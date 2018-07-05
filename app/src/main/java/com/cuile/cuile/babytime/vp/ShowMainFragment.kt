@@ -1,13 +1,18 @@
 package com.cuile.cuile.babytime.vp
 
 import android.os.Bundle
+import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.cuile.cuile.babytime.BaseFragment
 import com.cuile.cuile.babytime.R
 import com.cuile.cuile.babytime.model.ShowMainItemEntity
-import kotlinx.android.synthetic.main.fragment_show_main.*
+import kotlinx.android.synthetic.main.layout_show_main.*
 import kotlinx.android.synthetic.main.layout_fab_menu.*
+import kotlinx.android.synthetic.main.fragment_show_main.*
+import org.jetbrains.anko.support.v4.act
+import org.jetbrains.anko.support.v4.toast
 
 
 /**
@@ -53,13 +58,11 @@ class ShowMainFragment: BaseFragment(), ShowMainContract.View {
 
     override fun initViews() {
 
-        initToolbar()
+        initToolbarAndDrawerLayout()
 
-        setFabMenuListener()
+        setListener()
 
         initRecyclerview()
-
-
     }
 
     override fun onResume() {
@@ -74,18 +77,35 @@ class ShowMainFragment: BaseFragment(), ShowMainContract.View {
 
     override fun getLayout(): Int = R.layout.fragment_show_main
 
-    private fun setFabMenuListener() {
+    private fun setListener() {
         fabMenuBgFrameLayout.fabMenuItemClicked = {
             if (fabMenuItemClickListener != null) {
                 fabMenuItemClickListener?.invoke(it)
             }
         }
+
+        main_navigation.setNavigationItemSelectedListener {
+            when(it.itemId) {
+                R.id.dayChartShow -> toast(it.title)
+                R.id.typeChartShow -> toast(it.title)
+                R.id.growChartShow -> toast(it.title)
+                R.id.pictureShow -> toast(it.title)
+                R.id.menu_setting -> toast(it.title)
+            }
+
+            true
+        }
     }
 
-    private fun initToolbar() {
+    private fun initToolbarAndDrawerLayout() {
         show_main_appbar_layout.bringToFront()
+        (activity as AppCompatActivity).setSupportActionBar(showMainToolbar)
         showMainToolbar.title = getString(R.string.baby_name)
         showMainToolbar.setTitleTextColor(resources.getColor(android.R.color.white, null))
+
+        val drawerToggle = ActionBarDrawerToggle(act, main_draw_layout, showMainToolbar, R.string.open_drawer, R.string.close_drawer)
+        main_draw_layout.addDrawerListener(drawerToggle)
+        drawerToggle.syncState()
     }
 
     private fun initRecyclerview() {
