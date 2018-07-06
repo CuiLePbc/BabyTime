@@ -91,6 +91,8 @@ class ShowMainFragment: BaseFragment(), ShowMainContract.View {
                 R.id.growChartShow -> toast(it.title)
                 R.id.pictureShow -> toast(it.title)
                 R.id.menu_setting -> toast(it.title)
+                R.id.menu_share -> toast(it.title)
+                R.id.menu_send -> toast(it.title)
             }
 
             true

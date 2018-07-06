@@ -9,5 +9,7 @@
     </group>
     <group android:id="@+id/communicate_menu_group">
         <item android:id="@+id/menu_setting" android:title="设置" android:icon="@drawable/ic_settings_white_24dp" />
+        <item android:id="@+id/menu_share" android:title="分享" android:icon="@drawable/ic_share_white_24dp" />
+        <item android:id="@+id/menu_send" android:title="反馈我们" android:icon="@drawable/ic_send_white_24dp" />
     </group>
 </menu>
