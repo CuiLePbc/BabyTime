@@ -1,11 +1,17 @@
 package com.cuile.cuile.babytime.vp
 
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.NotificationCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.cuile.cuile.babytime.BaseFragment
+import com.cuile.cuile.babytime.MainActivity
 import com.cuile.cuile.babytime.R
 import com.cuile.cuile.babytime.model.ShowMainItemEntity
 import kotlinx.android.synthetic.main.layout_show_main.*
@@ -92,7 +98,22 @@ class ShowMainFragment: BaseFragment(), ShowMainContract.View {
                 R.id.pictureShow -> toast(it.title)
                 R.id.menu_setting -> toast(it.title)
                 R.id.menu_share -> toast(it.title)
-                R.id.menu_send -> toast(it.title)
+                R.id.menu_send -> {
+                    val notificationManager: NotificationManager =
+                            context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                    val builder = NotificationCompat.Builder(context!!, "babytime_timer")
+                            .setSmallIcon(R.drawable.ic_av_timer_black_24dp)
+                            .setContentTitle("标题:正在计时")
+                            .setOngoing(true)
+
+                    val pendingIntent = PendingIntent.getActivity(
+                            context,
+                            0,
+                            Intent(context, MainActivity::class.java),
+                            PendingIntent.FLAG_UPDATE_CURRENT)
+                    builder.setContentIntent(pendingIntent)
+                    notificationManager.notify(0, builder.build())
+                }
             }
 
             true
