@@ -139,7 +139,7 @@ class BodyAddFragment: BaseFragment(), BodyAddContract.View {
             bottomSheetDialog.cancel()
         }
         bottomSheetDialog.find<Button>(R.id.bodydata_dialog_choose_photo).setOnClickListener {
-            presenter.requestCameraPhoto()
+            presenter.requestLocalPhoto()
             bottomSheetDialog.cancel()
         }
     }

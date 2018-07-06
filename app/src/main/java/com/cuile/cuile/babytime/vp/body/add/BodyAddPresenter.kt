@@ -6,6 +6,8 @@ import com.cuile.cuile.babytime.model.DbDataSource
 import com.cuile.cuile.babytime.utils.PhotoUtil
 
 class BodyAddPresenter (val view: BodyAddContract.View): BodyAddContract.Presenter {
+
+
     override var imageName: String = ""
 
     override var isDataMissing: Boolean = false
@@ -27,6 +29,11 @@ class BodyAddPresenter (val view: BodyAddContract.View): BodyAddContract.Present
     override fun requestCameraPhoto() {
         imageName = System.currentTimeMillis().toString().plus(".jpg")
         PhotoUtil.checkAndTakePhoto(view as BodyAddFragment, imageName)
+    }
+
+    override fun requestLocalPhoto() {
+        imageName = System.currentTimeMillis().toString().plus(".jpg")
+        PhotoUtil.choosePhoto(view as BodyAddFragment)
     }
 
 }

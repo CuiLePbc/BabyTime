@@ -20,5 +20,6 @@ interface BodyAddContract {
 
         fun saveData(bodyData: BodyData)
         fun requestCameraPhoto()
+        fun requestLocalPhoto()
     }
 }
