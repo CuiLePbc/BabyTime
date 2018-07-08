@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import android.support.v4.app.NotificationCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
@@ -25,30 +26,7 @@ import org.jetbrains.anko.support.v4.toast
  * Created by cuile on 18-6-4.
  *
  */
-class ShowMainFragment: BaseFragment(), ShowMainContract.View {
-    override var presenter: ShowMainContract.Presenter = ShowMainPresenter(this)
-    private val showMainRecyclerAdapter: ShowMainRecyclerAdapter by lazy { ShowMainRecyclerAdapter() }
-
-    override var isActive: Boolean = isAdded
-
-    override fun refreshList(datas: List<ShowMainItemEntity>) {
-        showMainRecyclerAdapter.refreshDatas(datas)
-    }
-
-    override fun addItemsToList(datas: List<ShowMainItemEntity>) {
-        showMainRecyclerAdapter.addDatas(datas)
-    }
-
-    override fun showProgress() {
-
-    }
-
-    override fun stopProgress() {
-
-    }
-
-
-
+class ShowMainFragment: BaseFragment() {
     companion object {
         const val ARG_PARAM = "ShowMainFragment_param_key"
         fun getInstance(param: String = "", fabMenuItemClickListener: ((Int) -> Unit)?): ShowMainFragment {
@@ -68,13 +46,10 @@ class ShowMainFragment: BaseFragment(), ShowMainContract.View {
 
         setListener()
 
-        initRecyclerview()
+        initViewPager()
+
     }
 
-    override fun onResume() {
-        super.onResume()
-        presenter.requestRecentDaysDatas(3)
-    }
 
     override fun onPause() {
         super.onPause()
@@ -82,6 +57,14 @@ class ShowMainFragment: BaseFragment(), ShowMainContract.View {
     }
 
     override fun getLayout(): Int = R.layout.fragment_show_main
+
+    private fun initViewPager() {
+        showMainViewPager.adapter = ShowMainPagerAdapter(fragmentManager)
+        showMainTabLayout.setupWithViewPager(showMainViewPager)
+
+        val listTab = showMainTabLayout.getTabAt(0)
+        val chartTab = showMainTabLayout.getTabAt(1)
+    }
 
     private fun setListener() {
         fabMenuBgFrameLayout.fabMenuItemClicked = {
@@ -129,43 +112,5 @@ class ShowMainFragment: BaseFragment(), ShowMainContract.View {
         val drawerToggle = ActionBarDrawerToggle(act, main_draw_layout, showMainToolbar, R.string.open_drawer, R.string.close_drawer)
         main_draw_layout.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
-    }
-
-    private fun initRecyclerview() {
-        showMainRecyclerView.adapter = showMainRecyclerAdapter
-        showMainRecyclerView.layoutManager = LinearLayoutManager(context)
-        showMainRecyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-
-                val stickyInfoView = showMainRecyclerView.findChildViewUnder(
-                        (showMainScrollHeadView.measuredWidth / 2).toFloat(), 5f
-                )
-
-                if (stickyInfoView != null && stickyInfoView.contentDescription != null) {
-                    showMainScrollHeadView.text = stickyInfoView.contentDescription
-                }
-
-                val transInfoView = recyclerView?.findChildViewUnder(
-                        (showMainScrollHeadView.measuredWidth / 2).toFloat(),
-                        (showMainScrollHeadView.measuredHeight + 1).toFloat())
-
-                if (transInfoView != null && transInfoView.tag != null) {
-
-                    val transViewStatus = transInfoView.tag as Int
-                    val dealtY = transInfoView.top - showMainScrollHeadView.measuredHeight
-
-                    if (transViewStatus == ShowMainRecyclerAdapter.HAS_STICKY_VIEW) {
-                        if (transInfoView.top > 0) {
-                            showMainScrollHeadView.translationY = dealtY.toFloat()
-                        } else {
-                            showMainScrollHeadView.translationY = 0f
-                        }
-                    } else if (transViewStatus == ShowMainRecyclerAdapter.NONE_STICKY_VIEW) {
-                        showMainScrollHeadView.translationY = 0f
-                    }
-                }
-            }
-        })
     }
 }

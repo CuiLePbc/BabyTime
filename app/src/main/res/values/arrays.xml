@@ -20,4 +20,9 @@
         <item>便便稀状</item>
         <item>便便水状</item>
     </string-array>
+
+    <string-array name="show_main_days">
+        <item>本月</item>
+        <item>上月</item>
+    </string-array>
 </resources>

@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group>
-        <item android:id="@+id/dayChartShow" android:title="每日情况概览图" android:icon="@drawable/ic_subtitles_white_24dp" />
-        <item android:id="@+id/typeChartShow" android:title="分类信息摘要图" android:icon="@drawable/ic_assessment_white_24dp" />
+        <item android:id="@+id/dayChartShow" android:title="每日情况概览" android:icon="@drawable/ic_subtitles_white_24dp" />
+        <item android:id="@+id/typeChartShow" android:title="分类信息摘要" android:icon="@drawable/ic_assessment_white_24dp" />
         <item android:id="@+id/growChartShow" android:title="生长曲线" android:icon="@drawable/ic_timeline_white_24dp" />
         <item android:id="@+id/pictureShow" android:title="照片" android:icon="@drawable/ic_photo_library_white_24dp" />
     </group>
