@@ -17,11 +17,55 @@
             android:entries="@array/show_main_days"/>
     </LinearLayout>
 
-    <TextView
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:gravity="center"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="1200dp"
-        android:text="图表/n图表/n图表/n图表/n图表/n图表/n图表/n图表/n图表/n图表/n图表"/>
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <com.cuile.cuile.babytime.view.MonthTotalChart
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v4.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/point_eat"/>
+
+        <TextView
+            android:text="吃喝"
+            android:layout_marginStart="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginStart="32dp"
+            android:background="@drawable/point_excretion"/>
+
+        <TextView
+            android:text="拉撒"
+            android:layout_marginStart="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginStart="32dp"
+            android:background="@drawable/point_sleep"/>
+
+        <TextView
+            android:text="睡觉"
+            android:layout_marginStart="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
 </LinearLayout>

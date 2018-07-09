@@ -3,6 +3,7 @@ package com.cuile.cuile.babytime.model.db
 import com.cuile.cuile.babytime.R
 import com.cuile.cuile.babytime.model.ShowMainItemEntity
 import com.cuile.cuile.babytime.utils.ValueUtils
+import com.cuile.cuile.babytime.utils.ValueUtils.ShowTitleValue
 import com.cuile.cuile.babytime.utils.two
 import java.util.*
 
@@ -69,7 +70,7 @@ class BabyTimeDbDataMapper {
                 id = sleepData._id,
                 image = R.drawable.sleepdata,
                 stickyName = stickyName,
-                title = "睡觉记录",
+                title = ShowTitleValue.SLEEP_DATA,
                 content = content,
                 time = timeStr,
                 duration = "$startTime ~ $endTime",
@@ -94,7 +95,7 @@ class BabyTimeDbDataMapper {
                 id = excretionData._id,
                 image = R.drawable.excretiondata,
                 stickyName = stickyName,
-                title = "便便数据",
+                title = ShowTitleValue.EXCRETION_DATA,
                 content = content,
                 time = timeStr,
                 duration = "",
@@ -110,7 +111,7 @@ class BabyTimeDbDataMapper {
                 id = bodyData._id,
                 image = R.drawable.bodydata,
                 stickyName = stickyName,
-                title = "身体数据",
+                title = ShowTitleValue.BODY_DATA,
                 content = "身高:${bodyData.height}cm 体重:${bodyData.weight}kg",
                 time = stickyName,
                 duration = "",
@@ -152,9 +153,9 @@ class BabyTimeDbDataMapper {
                 id = eatData._id,
                 image = R.drawable.eatdata,
                 stickyName = stickyName,
-                title = "饮食数据",
+                title = ShowTitleValue.EAT_DATA,
                 content = content,
-                time = "$startTime ~ $endTime",
+                time = "$startTime~$endTime",
                 duration = durationStr,
                 timeInMillions = eatData.time)
     }

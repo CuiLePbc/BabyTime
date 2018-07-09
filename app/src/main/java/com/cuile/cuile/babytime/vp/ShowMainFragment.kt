@@ -42,12 +42,17 @@ class ShowMainFragment: BaseFragment() {
 
     override fun initViews() {
 
+
+
+    }
+
+    override fun onResume() {
+        super.onResume()
         initToolbarAndDrawerLayout()
 
         setListener()
 
         initViewPager()
-
     }
 
 

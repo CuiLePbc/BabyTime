@@ -35,4 +35,11 @@ object ValueUtils {
         const val QUALITY_BETTER = 3
         const val QUALITY_GOOD = 4
     }
+
+    object ShowTitleValue{
+        const val BODY_DATA = "身体数据"
+        const val EAT_DATA = "饮食数据"
+        const val EXCRETION_DATA = "便便数据"
+        const val SLEEP_DATA = "睡觉记录"
+    }
 }
