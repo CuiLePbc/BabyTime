@@ -67,8 +67,8 @@ class ShowMainFragment: BaseFragment() {
         showMainViewPager.adapter = ShowMainPagerAdapter(fragmentManager)
         showMainTabLayout.setupWithViewPager(showMainViewPager)
 
-        val listTab = showMainTabLayout.getTabAt(0)
-        val chartTab = showMainTabLayout.getTabAt(1)
+        showMainTabLayout.getTabAt(0)?.text = "列表"
+        showMainTabLayout.getTabAt(1)?.text = "图示"
     }
 
     private fun setListener() {
