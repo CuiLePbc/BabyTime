@@ -19,7 +19,7 @@ import org.jetbrains.anko.px2dip
  * Behavior which should be used by [View]s which can scroll vertically and support
  * nested scrolling to automatically scroll any [AppBarLayout] siblings.
  */
-class TextViewBelowToolbarBehavior(context: Context?, attrs: AttributeSet?) : Behavior<View>(context, attrs) {
+class ViewBelowToolbarBehavior(context: Context?, attrs: AttributeSet?) : Behavior<View>(context, attrs) {
 
     override fun layoutDependsOn(parent: CoordinatorLayout?, child: View?, dependency: View?): Boolean {
 

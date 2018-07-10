@@ -7,13 +7,9 @@ import android.support.v4.app.FragmentPagerAdapter
 class ShowMainPagerAdapter(fm: FragmentManager?) : FragmentPagerAdapter(fm) {
 
     private val titles = listOf("列表", "图示")
+    private val fragments = listOf<Fragment>(ShowMainListFragment(), ShowMainChartFragment())
 
-    override fun getItem(position: Int): Fragment =
-            if (position == 0) {
-                ShowMainListFragment()
-            } else {
-                ShowMainChartFragment()
-            }
+    override fun getItem(position: Int): Fragment = fragments[position]
 
     override fun getCount(): Int = titles.size
 

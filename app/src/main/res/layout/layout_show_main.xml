@@ -55,7 +55,8 @@
         android:id="@+id/showMainTabLayout"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        app:layout_behavior="com.cuile.cuile.babytime.utils.TextViewBelowToolbarBehavior"/>
+        android:layout_marginTop="220dp"
+        app:layout_behavior="com.cuile.cuile.babytime.utils.ViewBelowToolbarBehavior"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/showMainViewPager"
@@ -81,7 +82,7 @@
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="32dp"-->
         <!--android:gravity="center_vertical"-->
-        <!--app:layout_behavior="com.cuile.cuile.babytime.utils.TextViewBelowToolbarBehavior" />-->
+        <!--app:layout_behavior="com.cuile.cuile.babytime.utils.ViewBelowToolbarBehavior-->
 
     <include layout="@layout/layout_fab_menu" />
 </android.support.design.widget.CoordinatorLayout>
