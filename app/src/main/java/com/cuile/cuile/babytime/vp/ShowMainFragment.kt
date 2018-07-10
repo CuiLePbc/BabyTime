@@ -39,20 +39,14 @@ class ShowMainFragment: BaseFragment() {
 
     var fabMenuItemClickListener: ((Int) -> Unit)? = null
 
-
     override fun initViews() {
 
-
-
-    }
-
-    override fun onResume() {
-        super.onResume()
         initToolbarAndDrawerLayout()
 
         setListener()
 
         initViewPager()
+
     }
 
 
@@ -66,9 +60,7 @@ class ShowMainFragment: BaseFragment() {
     private fun initViewPager() {
         showMainViewPager.adapter = ShowMainPagerAdapter(fragmentManager)
         showMainTabLayout.setupWithViewPager(showMainViewPager)
-
-        showMainTabLayout.getTabAt(0)?.text = "列表"
-        showMainTabLayout.getTabAt(1)?.text = "图示"
+        showMainViewPager.offscreenPageLimit = 2
     }
 
     private fun setListener() {
