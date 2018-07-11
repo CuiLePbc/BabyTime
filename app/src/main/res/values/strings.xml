@@ -66,6 +66,7 @@
     <string name="left_side">左侧</string>
     <string name="close_drawer">closeDrawerLayout</string>
     <string name="open_drawer">openDrawerLayout</string>
+    <string name="body_lines">成长曲线</string>
 
     <string-array name="baby_excretion_type_array">
         <item>@string/baby_excretion_type_normal</item>

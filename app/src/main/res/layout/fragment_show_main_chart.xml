@@ -4,14 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".vp.ShowMainChartFragment">
+    tools:context=".vp.main.ShowMainChartFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="end"
+        android:visibility="gone"
         android:orientation="horizontal">
         <Spinner
+            android:id="@+id/monthChooseSelect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:entries="@array/show_main_days"/>
@@ -21,7 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
-        <com.cuile.cuile.babytime.view.MonthTotalChart
+        <com.cuile.cuile.babytime.view.MonthTotalChartView
+            android:id="@+id/showMainChart"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </android.support.v4.widget.NestedScrollView>

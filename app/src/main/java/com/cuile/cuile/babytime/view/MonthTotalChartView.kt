@@ -12,12 +12,13 @@ import com.cuile.cuile.babytime.utils.ValueUtils
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.sp
 import java.util.*
+import kotlin.properties.Delegates
 
 /**
  * Created by cuile on 18-7-9.
  *
  */
-class MonthTotalChart: View {
+class MonthTotalChartView: View {
 
     var days = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH)
     var currentMonth: Int = Calendar.getInstance().get(Calendar.MONTH) + 1
@@ -27,21 +28,9 @@ class MonthTotalChart: View {
     val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     var labelSize = sp(12).toFloat()
 
-
-    var datas: List<ShowMainItemEntity> = listOf(
-            ShowMainItemEntity(0,0,"2018年7月9日",ValueUtils.ShowTitleValue.EAT_DATA,"content","1:20", "duration", 0),
-            ShowMainItemEntity(0,0,"2018年7月9日",ValueUtils.ShowTitleValue.EXCRETION_DATA,"content","2:45", "duration", 0),
-            ShowMainItemEntity(0,0,"2018年7月9日",ValueUtils.ShowTitleValue.SLEEP_DATA,"content","5:10", "duration", 0),
-            ShowMainItemEntity(0,0,"2018年7月9日",ValueUtils.ShowTitleValue.EAT_DATA,"content","7:00", "duration", 0),
-            ShowMainItemEntity(0,0,"2018年7月9日",ValueUtils.ShowTitleValue.EXCRETION_DATA,"content","11:11", "duration", 0),
-            ShowMainItemEntity(0,0,"2018年7月9日",ValueUtils.ShowTitleValue.EAT_DATA,"content","13:12", "duration", 0),
-            ShowMainItemEntity(0,0,"2018年7月9日",ValueUtils.ShowTitleValue.EXCRETION_DATA,"content","15:20", "duration", 0),
-            ShowMainItemEntity(0,0,"2018年7月9日",ValueUtils.ShowTitleValue.EAT_DATA,"content","18:00", "duration", 0),
-            ShowMainItemEntity(0,0,"2018年7月9日",ValueUtils.ShowTitleValue.SLEEP_DATA,"content","19:50", "duration", 0),
-            ShowMainItemEntity(0,0,"2018年7月9日",ValueUtils.ShowTitleValue.EAT_DATA,"content","21:21", "duration", 0),
-            ShowMainItemEntity(0,0,"2018年7月9日",ValueUtils.ShowTitleValue.SLEEP_DATA,"content","23:00", "duration", 0),
-            ShowMainItemEntity(0,0,"2018年7月9日",ValueUtils.ShowTitleValue.EXCRETION_DATA,"content","23:50", "duration", 0)
-    )
+    var datas: MutableList<ShowMainItemEntity> by Delegates.observable(mutableListOf()) { _, _, _ ->
+        invalidate()
+    }
 
     constructor(context: Context) : super(context) {
         init(null, 0)
@@ -56,9 +45,7 @@ class MonthTotalChart: View {
     }
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
-        paint.color = Color.DKGRAY
-        paint.strokeWidth = 2f
-        paint.textSize = labelSize
+
         paint.strokeCap = Paint.Cap.ROUND
 
         currentMonth = 2
@@ -78,27 +65,24 @@ class MonthTotalChart: View {
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
+        drawLines(canvas)
+        drawDatas(canvas)
+    }
+
+    private fun drawLines(canvas: Canvas?) {
+        getSpace()
 
         paint.strokeWidth = 2f
 
-        spacingOfLineH = width.toFloat() / 26
-        spacingOfLineV = height.toFloat() / (days + 1)
+        drawDaysLines(canvas)
+        drawHoursLines(canvas)
+    }
 
-        val textBounds = Rect()
-        paint.getTextBounds("30", 0, 1, textBounds)
-
-
-        for (i in 1..days) {
-            paint.color = Color.DKGRAY
-            paint.textAlign = Paint.Align.RIGHT
-            canvas?.drawText(i.toString(), spacingOfLineH - dip(1), spacingOfLineV * i + textBounds.height() / 2, paint)
-            canvas?.drawLine(spacingOfLineH, spacingOfLineV * i, width.toFloat() - spacingOfLineH, spacingOfLineV * i, paint)
-        }
-
+    private fun drawHoursLines(canvas: Canvas?) {
+        paint.textAlign = Paint.Align.CENTER
         for (i in 0..24) {
             if (i % 4 == 0 && i != 24 && i != 0) {
                 paint.color = Color.RED
-                paint.textAlign = Paint.Align.CENTER
                 canvas?.drawText("$i 时", spacingOfLineH * (i + 1), spacingOfLineV - dip(2), paint)
                 canvas?.drawText("$i 时", spacingOfLineH * (i + 1), spacingOfLineV * (days + 1) - dip(2), paint)
             } else {
@@ -107,7 +91,35 @@ class MonthTotalChart: View {
 
             canvas?.drawLine(spacingOfLineH * (i + 1), spacingOfLineV, spacingOfLineH * (i + 1), spacingOfLineV * days, paint)
         }
+    }
 
+
+    private fun drawDaysLines(canvas: Canvas?) {
+        val textHeight = getTextHeight()
+
+        paint.color = Color.DKGRAY
+        paint.textAlign = Paint.Align.RIGHT
+        for (i in 1..days) {
+            canvas?.drawText(i.toString(), spacingOfLineH - dip(1), spacingOfLineV * i + textHeight / 2, paint)
+            canvas?.drawLine(spacingOfLineH, spacingOfLineV * i, width.toFloat() - spacingOfLineH, spacingOfLineV * i, paint)
+        }
+    }
+
+
+    private fun getTextHeight(): Float {
+        val textBounds = Rect()
+        paint.textSize = labelSize
+        paint.getTextBounds("30", 0, 1, textBounds)
+
+        return textBounds.height().toFloat()
+    }
+
+    private fun getSpace() {
+        spacingOfLineH = width.toFloat() / 26
+        spacingOfLineV = height.toFloat() / (days + 1)
+    }
+
+    private fun drawDatas(canvas: Canvas?) {
         paint.strokeWidth = dip(8).toFloat()
         datas.forEach {
             val dayStr = it.stickyName.split("月")[1]
@@ -124,7 +136,6 @@ class MonthTotalChart: View {
             paint.color = color
 
             canvas?.drawPoint(spacingOfLineH * (time + 1), spacingOfLineV * day, paint)
-
         }
     }
 }

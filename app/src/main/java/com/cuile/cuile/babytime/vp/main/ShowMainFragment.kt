@@ -1,20 +1,18 @@
-package com.cuile.cuile.babytime.vp
+package com.cuile.cuile.babytime.vp.main
 
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.TabLayout
 import android.support.v4.app.NotificationCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import com.cuile.cuile.babytime.BaseFragment
 import com.cuile.cuile.babytime.MainActivity
 import com.cuile.cuile.babytime.R
-import com.cuile.cuile.babytime.model.ShowMainItemEntity
+import com.cuile.cuile.babytime.vp.body.show.BodyLineActivity
+import com.cuile.cuile.babytime.vp.main.adapter.ShowMainPagerAdapter
 import kotlinx.android.synthetic.main.layout_show_main.*
 import kotlinx.android.synthetic.main.layout_fab_menu.*
 import kotlinx.android.synthetic.main.fragment_show_main.*
@@ -58,7 +56,7 @@ class ShowMainFragment: BaseFragment() {
     override fun getLayout(): Int = R.layout.fragment_show_main
 
     private fun initViewPager() {
-        showMainViewPager.adapter = ShowMainPagerAdapter(fragmentManager)
+        showMainViewPager.adapter = ShowMainPagerAdapter(childFragmentManager)
         showMainTabLayout.setupWithViewPager(showMainViewPager)
         showMainViewPager.offscreenPageLimit = 2
     }
@@ -74,7 +72,9 @@ class ShowMainFragment: BaseFragment() {
             when(it.itemId) {
                 R.id.dayChartShow -> toast(it.title)
                 R.id.typeChartShow -> toast(it.title)
-                R.id.growChartShow -> toast(it.title)
+                R.id.growChartShow -> {
+                    startActivity(Intent(context, BodyLineActivity::class.java))
+                }
                 R.id.pictureShow -> toast(it.title)
                 R.id.menu_setting -> toast(it.title)
                 R.id.menu_share -> toast(it.title)
@@ -104,7 +104,6 @@ class ShowMainFragment: BaseFragment() {
         show_main_appbar_layout.bringToFront()
         (activity as AppCompatActivity).setSupportActionBar(showMainToolbar)
         showMainToolbar.title = getString(R.string.baby_name)
-        showMainToolbar.setTitleTextColor(resources.getColor(android.R.color.white, null))
 
         val drawerToggle = ActionBarDrawerToggle(act, main_draw_layout, showMainToolbar, R.string.open_drawer, R.string.close_drawer)
         main_draw_layout.addDrawerListener(drawerToggle)

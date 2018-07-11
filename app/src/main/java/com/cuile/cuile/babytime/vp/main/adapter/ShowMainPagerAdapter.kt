@@ -1,8 +1,10 @@
-package com.cuile.cuile.babytime.vp
+package com.cuile.cuile.babytime.vp.main.adapter
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import com.cuile.cuile.babytime.vp.main.ShowMainChartFragment
+import com.cuile.cuile.babytime.vp.main.ShowMainListFragment
 
 class ShowMainPagerAdapter(fm: FragmentManager?) : FragmentPagerAdapter(fm) {
 

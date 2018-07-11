@@ -25,4 +25,9 @@
         <item>本月</item>
         <item>上月</item>
     </string-array>
+
+    <string-array name="body_line_type">
+        <item>身高</item>
+        <item>体重</item>
+    </string-array>
 </resources>

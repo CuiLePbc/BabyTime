@@ -1,16 +1,14 @@
-package com.cuile.cuile.babytime.vp
+package com.cuile.cuile.babytime.vp.main
 
 
-import android.content.Context
-import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log.i
 import com.cuile.cuile.babytime.BaseFragment
 
 import com.cuile.cuile.babytime.R
 import com.cuile.cuile.babytime.model.ShowMainItemEntity
+import com.cuile.cuile.babytime.vp.main.adapter.ShowMainRecyclerAdapter
 import kotlinx.android.synthetic.main.fragment_show_main_list.*
 
 /**
@@ -40,40 +38,7 @@ class ShowMainListFragment : BaseFragment(), ShowMainContract.View {
 
     override fun initViews() {
         initRecyclerview()
-
-        i(this.javaClass.simpleName, "viewcreted")
-    }
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-
-        i(this.javaClass.simpleName, "attach")
-    }
-
-    override fun onStart() {
-        super.onStart()
-        i(this.javaClass.simpleName, "start")
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        i(this.javaClass.simpleName, "detach")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        i(this.javaClass.simpleName, "stop")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        i(this.javaClass.simpleName, "resume")
         presenter.requestRecentDaysDatas(3)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        i(this.javaClass.simpleName, "pause")
     }
 
     override fun getLayout(): Int = R.layout.fragment_show_main_list

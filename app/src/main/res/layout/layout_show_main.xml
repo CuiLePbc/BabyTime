@@ -46,6 +46,7 @@
                 android:id="@+id/showMainToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
+                android:theme="@style/AppTheme.ActionBarOverlay"
                 app:layout_collapseMode="pin"/>
         </android.support.design.widget.CollapsingToolbarLayout>
 

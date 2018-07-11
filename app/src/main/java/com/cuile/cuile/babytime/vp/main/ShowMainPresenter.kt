@@ -1,4 +1,4 @@
-package com.cuile.cuile.babytime.vp
+package com.cuile.cuile.babytime.vp.main
 
 import com.cuile.cuile.babytime.model.DataManager
 import com.cuile.cuile.babytime.model.DbDataSource

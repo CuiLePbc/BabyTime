@@ -125,7 +125,7 @@ class BabyTimeDbDataMapper {
         val startTime = "${calendar.get(Calendar.HOUR_OF_DAY).two()}:${calendar.get(Calendar.MINUTE).two()}"
         calendar.timeInMillis += eatData.duration * 1000
         calendar.timeInMillis += eatData.durationR * 1000
-        val endTime = "${calendar.get(Calendar.HOUR_OF_DAY).two()}:${calendar.get(Calendar.MINUTE).two()}"
+
 
         val durationStr: String
         val content: String
@@ -155,7 +155,7 @@ class BabyTimeDbDataMapper {
                 stickyName = stickyName,
                 title = ShowTitleValue.EAT_DATA,
                 content = content,
-                time = "$startTime~$endTime",
+                time = startTime,
                 duration = durationStr,
                 timeInMillions = eatData.time)
     }

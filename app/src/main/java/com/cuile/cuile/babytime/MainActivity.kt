@@ -9,12 +9,10 @@ import com.cuile.cuile.babytime.vp.eat.add.EatAddFragment
 import com.cuile.cuile.babytime.vp.excretion.add.ExcretionAddFragment
 import com.cuile.cuile.babytime.vp.sleep.add.SleepAddFragment
 import com.cuile.cuile.babytime.utils.DetailsTransition
-import com.cuile.cuile.babytime.view.FabMenuFrameLayout
-import com.cuile.cuile.babytime.vp.ShowMainFragment
+import com.cuile.cuile.babytime.vp.main.ShowMainFragment
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.support.v4.find
 import org.jetbrains.anko.uiThread
-import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : BaseActivity() {

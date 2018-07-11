@@ -1,4 +1,4 @@
-package com.cuile.cuile.babytime.vp
+package com.cuile.cuile.babytime.vp.main.adapter
 
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
