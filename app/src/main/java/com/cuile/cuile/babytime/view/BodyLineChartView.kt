@@ -10,6 +10,10 @@ import android.view.View
 import com.cuile.cuile.babytime.R
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.sp
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.io.Reader
+import java.io.StringReader
 
 /**
  * Created by cuile on 18-7-11.
@@ -73,8 +77,16 @@ class BodyLineChartView : View{
             }
         }
 
-        resources.openRawResource(baseFileId)
+        val dataInputstream = resources.openRawResource(baseFileId)
+        val datas = InputStreamReader(dataInputstream).readLines()
+        datas.forEach {
+            val minFloat = getMinNum(it)
+            val maxFloat = getMaxNum(it)
+        }
     }
+
+    private fun getMinNum(lines: String) = lines.split(" ")[4].toFloatOrNull()
+    private fun getMaxNum(lines: String) = lines.split(" ")[18].toFloatOrNull()
 
     private fun drawLines(canvas: Canvas?) {
         drawHLines(canvas)
