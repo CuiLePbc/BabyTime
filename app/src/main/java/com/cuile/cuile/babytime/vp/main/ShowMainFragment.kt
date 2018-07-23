@@ -96,6 +96,8 @@ class ShowMainFragment: BaseFragment() {
                 }
             }
 
+            main_draw_layout.closeDrawers()
+
             true
         }
     }

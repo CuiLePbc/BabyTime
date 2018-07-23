@@ -121,7 +121,8 @@ class MonthTotalChartView: View {
 
     private fun drawDatas(canvas: Canvas?) {
         paint.strokeWidth = dip(8).toFloat()
-        datas.forEach {
+        for (it in datas) {
+            if (it.title == ValueUtils.ShowTitleValue.BODY_DATA) continue
             val dayStr = it.stickyName.split("月")[1]
             val day = dayStr.substring(0, dayStr.length - 1).toInt()
             val timeStr = it.time.split(":")
