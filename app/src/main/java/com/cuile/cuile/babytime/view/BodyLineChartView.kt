@@ -8,8 +8,7 @@ import android.view.MotionEvent
 import android.view.View
 import com.cuile.cuile.babytime.R
 import com.cuile.cuile.babytime.model.db.BodyData
-import org.jetbrains.anko.dip
-import org.jetbrains.anko.sp
+import org.jetbrains.anko.*
 import java.io.InputStream
 import java.io.InputStreamReader
 import kotlin.properties.Delegates
@@ -23,11 +22,15 @@ class BodyLineChartView : View{
     var isBoy = true
         set(value) {
             field = value
+            restoreBaseLineValue()
+            getBaseDatas()
             invalidate()
         }
     var isWeight = false
         set(value) {
             field = value
+            restoreBaseLineValue()
+            getBaseDatas()
             invalidate()
         }
     var birthDay: Long = 0L
@@ -35,16 +38,23 @@ class BodyLineChartView : View{
         invalidate()
     }
 
+    private var baseDatas: MutableList<String> = mutableListOf()
+
     private var touchedX = 0f
 
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val valueLabelRect = Rect()
     private val timeLabelRect = Rect()
+
     private var lineSpanV = dip(30).toFloat()
     private var lineSpanH = dip(30).toFloat()
     private val BASE_HEIGHT = 40
     private val TOP_HEIGHT = 85
-    private val realValueNum = (TOP_HEIGHT - BASE_HEIGHT) / 5
+    private val BASE_WEIGHT = 2
+    private val TOP_WEIGHT = 14
+    private var realValueNum = 0
+    private var textDesLabel = "厘米"
+
     private var lineMarginTop: Float = 0f
 
     private var widthPerOne = 0f
@@ -59,6 +69,8 @@ class BodyLineChartView : View{
     var startDay = 0
     var endDay = 350  //350
 
+
+
     constructor(context: Context) : super(context) {
         init(null, 0)
     }
@@ -72,15 +84,77 @@ class BodyLineChartView : View{
     }
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
+        restoreBaseLineValue()
+
         paint.textSize = sp(12).toFloat()
         paint.getTextBounds("120厘米", 0, "120厘米".length, valueLabelRect)
         paint.getTextBounds("50周", 0, "50周".length, timeLabelRect)
 
+        lineMarginTop = valueLabelRect.height().toFloat() / 2
         touchedX = -5f
+
+
+        startX = valueLabelRect.width().toFloat() + labelSpace
+        startY = lineSpanV * realValueNum + lineMarginTop
+
+        getBaseDatas()
+    }
+
+    private fun restoreBaseLineValue() {
+        if (isWeight) {
+            lineSpanV = dip(22.5f).toFloat()
+            realValueNum = (TOP_WEIGHT - BASE_WEIGHT) / 1
+            textDesLabel = "千克"
+            heightPerOne = lineSpanV / 1
+        }
+        else {
+            lineSpanV = dip(30).toFloat()
+            realValueNum = (TOP_HEIGHT - BASE_HEIGHT) / 5
+            textDesLabel = "厘米"
+            heightPerOne = lineSpanV / 5
+        }
+    }
+
+    private fun getBaseDatas() {
+        val baseFileId = if (isBoy) {
+            if (isWeight) {
+                R.raw.wfa_boys_p_exp
+            } else {
+                R.raw.lhfa_boys_p_exp
+            }
+        } else {
+            if (isWeight) {
+                R.raw.wfa_girls_p_exp
+            } else {
+                R.raw.lhfa_girls_p_exp
+            }
+        }
+
+        var dataInputstream: InputStream? = null
+        var dataInputReader: InputStreamReader? = null
+        try {
+            dataInputstream = resources.openRawResource(baseFileId)
+            dataInputReader = InputStreamReader(dataInputstream)
+
+            baseDatas.clear()
+
+            val getedDatas = dataInputReader.readLines()
+            baseDatas.addAll(getedDatas.subList(1, getedDatas.size - 1))
+
+            Log.i(javaClass.simpleName, "-----------geted base datas----------")
+            Log.i(javaClass.simpleName, "$getedDatas")
+
+
+        } finally {
+            dataInputReader?.close()
+            dataInputstream?.close()
+        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        lineSpanH = (measuredWidth - valueLabelRect.width().toFloat() - labelSpace - timeLabelRect.width() / 2) / 10
+
+        widthPerOne = lineSpanH / 35
 
         setMeasuredDimension(widthMeasureSpec, (realValueNum * lineSpanV + valueLabelRect.height().toFloat() * 1.5 + valueLabelRect.height() * 3).toInt())
     }
@@ -119,84 +193,40 @@ class BodyLineChartView : View{
 
 
             val currentX = startX + (ageOfDay - startDay) * widthPerOne
-            val currentY = startY - (value - BASE_HEIGHT) * heightPerOne
-
-            Log.i("bodyLineChartView", "$ageOfDay,$value")
+            val baseValue = if (isWeight) BASE_WEIGHT else BASE_HEIGHT
+            val currentY = startY - (value - baseValue) * heightPerOne
 
             canvas?.drawPoint(currentX, currentY, paint)
         }
     }
 
     private fun drawBaseDatas(canvas: Canvas?) {
-        widthPerOne = lineSpanH / 35
-        heightPerOne = lineSpanV / 5
-        startX = valueLabelRect.width().toFloat() + labelSpace
-        startY = lineSpanV * realValueNum + lineMarginTop
+        val baseValue = if (isWeight) BASE_WEIGHT else BASE_HEIGHT
 
-        val baseFileId = if (isBoy) {
-            if (isWeight) {
-                R.raw.wfa_boys_p_exp
+        val pathArea = Path()
+        for (i in 0..baseDatas.lastIndex) {
+            val max = getMaxNum(baseDatas[i])
+            val currentX = startX + (i - startDay) * widthPerOne
+
+            val currentY = startY - (max!! - baseValue) * heightPerOne
+            if (i == startDay) {
+                pathArea.moveTo(currentX, currentY)
             } else {
-                R.raw.lhfa_boys_p_exp
-            }
-        } else {
-            if (isWeight) {
-                R.raw.wfa_girls_p_exp
-            } else {
-                R.raw.lhfa_girls_p_exp
-            }
-        }
-
-        var dataInputstream: InputStream? = null
-        var dataInputReader: InputStreamReader? = null
-        try {
-            dataInputstream = resources.openRawResource(baseFileId)
-            dataInputReader = InputStreamReader(dataInputstream)
-
-            val widthPerOne = lineSpanH / 35
-            val heightPerOne = lineSpanV / 5
-            val startX = valueLabelRect.width().toFloat() + labelSpace
-            val startY = lineSpanV * realValueNum + lineMarginTop
-
-            // 去掉标题行
-            val datas = dataInputReader.readLines().subList(1, (endDay - startDay + 2 + timeLabelRect.width() / 2 / widthPerOne).toInt())
-
-            Log.i("min","${datas.last().split("\t")[4]} -- " +
-                    "${startY - (datas.last().split("\t")[4].toFloat() - BASE_HEIGHT) * heightPerOne}")
-            Log.i("max","${datas.last().split("\t")[18]} -- " +
-                "${startY - (datas.last().split("\t")[18].toFloat() - BASE_HEIGHT) * heightPerOne}")
-
-            val pathArea = Path()
-            for (i in 0..datas.lastIndex) {
-                val max = getMaxNum(datas[i])
-                val currentX = startX + (i - startDay) * widthPerOne
-                val currentY = startY - (max!! - BASE_HEIGHT) * heightPerOne
-                if (i == startDay) {
-                    pathArea.moveTo(currentX, currentY)
-                } else {
-                    pathArea.lineTo(currentX, currentY)
-                }
-
-            }
-            for (i in 0..datas.lastIndex) {
-                val min = getMinNum(datas[datas.lastIndex - i])
-                val currentX = startX + (datas.lastIndex - i - startDay) * widthPerOne
-                val currentY = startY - (min!! - BASE_HEIGHT) * heightPerOne
                 pathArea.lineTo(currentX, currentY)
             }
-            pathArea.close()
 
-            paint.color = Color.parseColor("#4D00E3E3")
-            paint.style = Paint.Style.FILL
-            canvas?.drawPath(pathArea, paint)
-
-        } finally {
-            dataInputReader?.close()
-            dataInputstream?.close()
         }
+        for (i in 0..baseDatas.lastIndex) {
+            val min = getMinNum(baseDatas[baseDatas.lastIndex - i])
+            val currentX = startX + (baseDatas.lastIndex - i - startDay) * widthPerOne
+            val currentY = startY - (min!! - baseValue) * heightPerOne
+            pathArea.lineTo(currentX, currentY)
+        }
+        pathArea.close()
 
-
-
+        paint.color = Color.parseColor("#4D00E3E3")
+        paint.style = Paint.Style.FILL
+        canvas?.drawPath(pathArea, paint)
 
     }
 
@@ -213,8 +243,6 @@ class BodyLineChartView : View{
     private fun drawVLines(canvas: Canvas?) {
         paint.textAlign = Paint.Align.CENTER
         paint.strokeWidth = 2f
-
-        lineSpanH = (width - valueLabelRect.width().toFloat() - labelSpace - timeLabelRect.width() / 2) / 10
 
         for (i in 0..10) {
             canvas?.drawLine(valueLabelRect.width().toFloat() + labelSpace + lineSpanH * i,
@@ -236,7 +264,6 @@ class BodyLineChartView : View{
 
     private fun drawHLines(canvas: Canvas?) {
         val textWidth = valueLabelRect.width().toFloat()
-        lineMarginTop = valueLabelRect.height().toFloat() / 2
 
         paint.color = Color.DKGRAY
         paint.textAlign = Paint.Align.RIGHT
@@ -244,14 +271,18 @@ class BodyLineChartView : View{
 
         for (i in 0..realValueNum) {
 
-            val realValue = TOP_HEIGHT - i * (TOP_HEIGHT - BASE_HEIGHT) / realValueNum
+            val realValue = if (isWeight)
+                    TOP_WEIGHT - i * (TOP_WEIGHT - BASE_WEIGHT) / realValueNum
+                else
+                    TOP_HEIGHT - i * (TOP_HEIGHT - BASE_HEIGHT) / realValueNum
+
 
             canvas?.drawLine(
                     textWidth + labelSpace, lineSpanV * i + lineMarginTop,
                     width - labelSpace, lineSpanV * i + lineMarginTop,
                     paint)
 
-            canvas?.drawText("${realValue}厘米", textWidth, lineSpanV * i + lineMarginTop * 2, paint)
+            canvas?.drawText("$realValue$textDesLabel", textWidth, lineSpanV * i + lineMarginTop * 2, paint)
         }
     }
 }

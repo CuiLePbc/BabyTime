@@ -20,7 +20,7 @@ class BodyLinePresenter(val view: BodyLineContract.View): BodyLineContract.Prese
     override fun requestAllBodyDatas() {
         view.showProgress()
         val allBodyDatas = dataManager.getBodyDatasByTimeRange(0, Calendar.getInstance().timeInMillis)
-        view.refreshChartView(allBodyDatas!!)
+        allBodyDatas?.let { view.refreshChartView(it) }
         view.stopProgress()
     }
 }
